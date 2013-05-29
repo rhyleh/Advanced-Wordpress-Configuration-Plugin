@@ -310,6 +310,9 @@ class advancedwordpressconfigurationpluginBackendOptions {
 					'commentstatusdiv' => 'Comment status',
 					'postimagediv' => 'Post image',
 					'pageparentdiv' => 'Page parent'),  'label' => 'Select metaboxes to remove from editing screen:' ) );
+
+			add_settings_field('advanced_wordpress_configuration_plugin_hidePostFormatUI', __('Hide post format UI for all users', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
+				array( 'option_name' => 'advanced_wordpress_configuration_plugin_hidePostFormatUI', 'type' => 'checkbox', 'label' => 'Hides the post format UI (new in WordPress 3.6.' ) );
 	}
 
 	/**

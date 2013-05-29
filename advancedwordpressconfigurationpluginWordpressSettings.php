@@ -295,7 +295,11 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 			add_action('manage_pages_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
 		}
 
-
+		//remove post format UI (WordPress 3.6 and up)
+		//copied from http://bueltge.de/post-format-ui-deaktivieren/2587/
+		if($this->options_backend["advanced_wordpress_configuration_plugin_hidePostFormatUI"] ) {
+			add_filter( 'enable_post_format_ui', '__return_false' );
+		}
 
 
 

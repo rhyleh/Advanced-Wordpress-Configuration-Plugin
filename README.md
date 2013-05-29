@@ -31,6 +31,7 @@ No.
 
 No screenshots available.
 
+
 == Changelog ==
 
 = 1.0 =
@@ -40,8 +41,19 @@ No screenshots available.
 Also, check these tipps for wp-config.php (based on http://digwp.com/2009/06/wordpress-configuration-tricks/):
 
 Security
-Move wp-config to a non-accessible (via webserver) location
+- Move wp-config to a non-accessible (via webserver) location. Wordpress will automatically look in the next higher directory (unfortunately this doesn't help very much).
+- Use a backup plugin like BackWPup (this is essential).
+- Use SSL for backend (and define in wp-config.php: define('FORCE_SSL_LOGIN', true); or define('FORCE_SSL_ADMIN', true); (latter is safer)) (this is good to have but comes with additional costs).
+- Limit login attemps (e.g. install Limit Login Attempts plugin or Login LockDown) (this only helps for smaller attacks, not against larger attacks from thousands of IP-addresses). It's better so secure the admin area by .htaccess.
+- Security through obfuscation is not security.
+- Better WP Security - it helps a little. 
+- Plugin AntiVirus - notifies of template changes.
+- Plugin Snitch - monitors outgoing connections.
 
+See here for more in-depth information (in German):
+http://www.kuketz-blog.de/basisschutz-wordpress-absichern-teil1/
+http://www.kuketz-blog.de/schutzmassnahmen-wordpress-absichern-teil2/
+http://www.kuketz-blog.de/security-plugins-wordpress-absichern-teil3/
 
 
 Blog Address and Site Address
@@ -151,3 +163,4 @@ body { padding: 20px; background: red; color: white; font-size: 60px; }
   You got problems.
 </body>
 </html>
+
