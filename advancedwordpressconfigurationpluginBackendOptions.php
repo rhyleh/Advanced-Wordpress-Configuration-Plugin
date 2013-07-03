@@ -358,6 +358,9 @@ class advancedwordpressconfigurationpluginBackendOptions {
 		add_settings_field('advanced_wordpress_configuration_plugin_setSearchResultsPerPage', __('Search results per page', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_setSearchResultsPerPage', 'type' => 'number', 'label' => 'Enter any number here. Wordpress default: 10' ) );
 
+		add_settings_field('advanced_wordpress_configuration_plugin_removeHeaderLinks', __('Remove header data', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_removeHeaderLinks', 'type' => 'checkbox', 'label' => 'Removes typical Wordpress header entries like rsd_link or wlwmanifest_link.' ) );
+
 		add_settings_field('advanced_wordpress_configuration_plugin_removeWidthHeightFromImage', __('Remove image width/height', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_removeWidthHeightFromImage', 'type' => 'checkbox', 'label' => 'Remove Width and Height Attributes From Inserted Images' ) );
 	}

@@ -48,85 +48,92 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 	 */
 	function registerActions() {
 
+		if( !is_null($this->options_backend) ) {
 		
-		//remove menus we never use
-		if($this->options_backend["advanced_wordpress_configuration_plugin_removeBackendMenus"] ) {
-			add_action('admin_menu', array($this, 'removeBackendMenus') );
+			//remove menus we never use
+			if($this->options_backend["advanced_wordpress_configuration_plugin_removeBackendMenus"] ) {
+				add_action('admin_menu', array($this, 'removeBackendMenus') );
+			}
+		
+			//remove default widgets we never use
+			if($this->options_backend["advanced_wordpress_configuration_plugin_customizeDashboardWidgets"] ) {
+				add_action('wp_dashboard_setup', array($this, 'customizeDashboardWidgets') );
+			}
+
+			// Custom CSS for the whole admin area
+			if($this->options_backend["advanced_wordpress_configuration_plugin_customBackend"] ) {
+				add_action('admin_head', array($this, 'customBackend'));
+			}
+
+			//loads a background image into login screen
+			if($this->options_backend["advanced_wordpress_configuration_plugin_customLoginImage"] ) {
+				add_action( 'login_enqueue_scripts', array($this, 'customLoginImage') );
+			}
+
+			// Custom CSS for the login page
+			if($this->options_backend["advanced_wordpress_configuration_plugin_customLoginCSS"] ) {
+				add_action('login_head', array($this, 'customLoginCSS'));
+			}
+
+			//removes color scheme selection from user profile
+			if($this->options_backend["advanced_wordpress_configuration_plugin_admin_color_scheme_picker"] ) {
+				remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
+			}
+
+			// remove the notifications of the core
+			if($this->options_backend["advanced_wordpress_configuration_plugin_hideUpdateNag"] ) {
+				remove_action( 'admin_menu', 'hideUpdateNag' );
+			}
+
+			//disables the dragging of widgets in dashboard
+			if($this->options_backend["advanced_wordpress_configuration_plugin_disableDragDashboardWidgets"] ) {
+				add_action( 'admin_init', array($this, 'disableDragDashboardWidgets') );
+			}
+
+			//shows an admin message to backend users
+			if($this->options_backend["advanced_wordpress_configuration_plugin_showAdminMessage"] ) {
+				add_action( 'admin_notices', array($this, 'showAdminMessages') );
+			}
+
+			//shows an admin message to backend users
+			if($this->options_backend["advanced_wordpress_configuration_plugin_hideHelpTab"] ) {
+				add_action( 'admin_head', array($this, 'hideHelpTab') );
+			}
+
+			//removes meta boxes from editing screen
+			if($this->options_backend["advanced_wordpress_configuration_plugin_removeMetaBoxes"] ) {
+				add_action( 'admin_menu', array($this, 'removeMetaBoxes') );
+				add_action( 'do_meta_boxes', array($this, 'removeMetaBoxes2') );
+			}
 		}
 	
-		//remove default widgets we never use
-		if($this->options_backend["advanced_wordpress_configuration_plugin_customizeDashboardWidgets"] ) {
-			add_action('wp_dashboard_setup', array($this, 'customizeDashboardWidgets') );
-		}
-
-		// Custom CSS for the whole admin area
-		if($this->options_backend["advanced_wordpress_configuration_plugin_customBackend"] ) {
-			add_action('admin_head', array($this, 'customBackend'));
-		}
-
-		//loads a background image into login screen
-		if($this->options_backend["advanced_wordpress_configuration_plugin_customLoginImage"] ) {
-			add_action( 'login_enqueue_scripts', array($this, 'customLoginImage') );
-		}
-
-		// Custom CSS for the login page
-		if($this->options_backend["advanced_wordpress_configuration_plugin_customLoginCSS"] ) {
-			add_action('login_head', array($this, 'customLoginCSS'));
-		}
-
-		//removes color scheme selection from user profile
-		if($this->options_backend["advanced_wordpress_configuration_plugin_admin_color_scheme_picker"] ) {
-			remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
-		}
-
-		// remove the notifications of the core
-		if($this->options_backend["advanced_wordpress_configuration_plugin_hideUpdateNag"] ) {
-			remove_action( 'admin_menu', 'hideUpdateNag' );
-		}
-
-		//disables the dragging of widgets in dashboard
-		if($this->options_backend["advanced_wordpress_configuration_plugin_disableDragDashboardWidgets"] ) {
-			add_action( 'admin_init', array($this, 'disableDragDashboardWidgets') );
-		}
-
-		//shows an admin message to backend users
-		if($this->options_backend["advanced_wordpress_configuration_plugin_showAdminMessage"] ) {
-			add_action( 'admin_notices', array($this, 'showAdminMessages') );
-		}
-
-		//shows an admin message to backend users
-		if($this->options_backend["advanced_wordpress_configuration_plugin_hideHelpTab"] ) {
-			add_action( 'admin_head', array($this, 'hideHelpTab') );
-		}
-
-		//removes meta boxes from editing screen
-		if($this->options_backend["advanced_wordpress_configuration_plugin_removeMetaBoxes"] ) {
-			add_action( 'admin_menu', array($this, 'removeMetaBoxes') );
-			add_action( 'do_meta_boxes', array($this, 'removeMetaBoxes2') );
-		}
-
-	
 
 
 
 
 
+		if( !is_null($this->options_frontend) ) {
 
+			if($this->options_frontend["advanced_wordpress_configuration_plugin_deregisterPluginStyles"] ) {
+				add_action( 'wp_print_styles', array( &$this, 'deregisterPluginStyles'), 100 );
+			}
 
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_deregisterPluginStyles"] ) {
-			add_action( 'wp_print_styles', array( &$this, 'deregisterPluginStyles'), 100 );
-		}
+			if($this->options_frontend['advanced_wordpress_configuration_plugin_metaImageThumb'] ) {
+				add_action('wp_head', array( &$this, 'metaImageThumb') );
+			}
 
-		if($this->options_frontend['advanced_wordpress_configuration_plugin_metaImageThumb'] ) {
-			add_action('wp_head', array( &$this, 'metaImageThumb') );
-		}
+			if($this->options_frontend['advanced_wordpress_configuration_plugin_addBreadcrumbAction'] ) {
+				add_action('the_breadcrumb', array( &$this, 'addBreadcrumbAction') );
+			}
 
-		if($this->options_frontend['advanced_wordpress_configuration_plugin_addBreadcrumbAction'] ) {
-			add_action('the_breadcrumb', array( &$this, 'addBreadcrumbAction') );
-		}
+			if($this->options_frontend['advanced_wordpress_configuration_plugin_setSearchResultsPerPage'] ) {
+				add_action('pre_get_posts', array( &$this, 'setSearchResultsPerPage') );
+			}
 
-		if($this->options_frontend['advanced_wordpress_configuration_plugin_setSearchResultsPerPage'] ) {
-			add_action('pre_get_posts', array( &$this, 'setSearchResultsPerPage') );
+			//remove header stuff
+			if(get_option("advanced_wordpress_configuration_plugin_removeHeaderLinks")) {
+				add_action('init', array($this, 'removeHeaderLinks') );
+			}
 		}
 
 
@@ -134,15 +141,16 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		
 
 
+		if( !is_null($this->options_rss) ) {
 
-
-		//set in plugin options, default is false: disable RSS feeds
-		if($this->options_rss["advanced_wordpress_configuration_plugin_disableRSS"] ) {
-			add_action('do_feed', array($this, 'disableRSS'), 1);
-			add_action('do_feed_rdf', array($this, 'disableRSS'), 1);
-			add_action('do_feed_rss', array($this, 'disableRSS'), 1);
-			add_action('do_feed_rss2', array($this, 'disableRSS'), 1);
-			add_action('do_feed_atom', array($this, 'disableRSS'), 1);
+			//set in plugin options, default is false: disable RSS feeds
+			if($this->options_rss["advanced_wordpress_configuration_plugin_disableRSS"] ) {
+				add_action('do_feed', array($this, 'disableRSS'), 1);
+				add_action('do_feed_rdf', array($this, 'disableRSS'), 1);
+				add_action('do_feed_rss', array($this, 'disableRSS'), 1);
+				add_action('do_feed_rss2', array($this, 'disableRSS'), 1);
+				add_action('do_feed_atom', array($this, 'disableRSS'), 1);
+			}
 		}
 
 
@@ -151,52 +159,36 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		
 
 
-		//set in plugin options, default is false: add jquery from cdn
-		if($this->options_javascript["advanced_wordpress_configuration_plugin_jqueryFromCdn"] ) {
-			add_action( 'init', array($this, 'jqueryFromCdn') );
-		}
-
-
-
-		//customizes the admin bar
-		if($this->options_adminbar["advanced_wordpress_configuration_plugin_removeFromAdminBar"] ) {
-			add_action( 'wp_before_admin_bar_render', array($this, 'removeFromAdminBar') );
-		}
-
-		if($this->options_adminbar["advanced_wordpress_configuration_plugin_customizeAdminbar"] ) {
-			add_action( 'wp_before_admin_bar_render', array($this, 'customizeAdminBar') );
-		}
-
-		
-		
-		//open site links in new browser window
-		if($this->options_adminbar["advanced_wordpress_configuration_plugin_openSiteLinkNewWindow"] ) {
-			add_action( 'wp_before_admin_bar_render', array($this, 'openSiteLinkNewWindow') );
-		}
-
-		// additonal help information
-		if($this->options_adminbar["advanced_wordpress_configuration_plugin_addHelpForEditors"] ) {
-			add_action( 'load-post.php', array($this, 'addHelpForEditors') );
-		}
-
-
 		
 
-		//remove header stuff
-		if(get_option("advanced_wordpress_configuration_plugin_removeHeaderLinks")) {
-			add_action('init', array($this, 'removeHeaderLinks') );
+		if( !is_null($this->options_adminbar) ) {
+
+			//customizes the admin bar
+			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_removeFromAdminBar"] ) {
+				add_action( 'wp_before_admin_bar_render', array($this, 'removeFromAdminBar') );
+			}
+
+			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_customizeAdminbar"] ) {
+				add_action( 'wp_before_admin_bar_render', array($this, 'customizeAdminBar') );
+			}
+
+			//open site links in new browser window
+			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_openSiteLinkNewWindow"] ) {
+				add_action( 'wp_before_admin_bar_render', array($this, 'openSiteLinkNewWindow') );
+			}
+
+			// additonal help information
+			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_addHelpForEditors"] ) {
+				add_action( 'load-post.php', array($this, 'addHelpForEditors') );
+			}
 		}
 
-
-		
 
 		
 
 		if (current_theme_supports('h5bp-htaccess')) {
 			add_action('generate_rewrite_rules', array($this, 'addH5bpHtaccess') );
 		}
-
-		
 
 	}
 
@@ -406,19 +398,29 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 
 
-		//adds a defer='defer' to javascripts in header
-		if($this->options_javascript["advanced_wordpress_configuration_plugin_deferJavascript"] ) {
-			add_filter( 'clean_url', array($this, 'addScriptDefer'), 99, 1);
+		
+		if( !is_null($this->options_javascript) ) {
+
+			//set in plugin options, default is false: add jquery from cdn
+			if( $this->options_javascript["advanced_wordpress_configuration_plugin_jqueryFromCdn"] ) {
+				add_action( 'init', array($this, 'jqueryFromCdn') );
+			}
+
+			//adds a defer='defer' to javascripts in header
+			if( $this->options_javascript["advanced_wordpress_configuration_plugin_deferJavascript"] ) {
+				add_filter( 'clean_url', array($this, 'addScriptDefer'), 99, 1);
+			}
 		}
 
 
 		
 
 		//By default, WordPress counts trackbacks, and pings as comments. This inflates the comment count which looks really bad especially when you are not displaying the trackbacks and pings.
-		if($this->options_comments["advanced_wordpress_configuration_plugin_correctCommentCount"] ) {
-			add_filter('get_comments_number', array($this, 'correctCommentCount'), 0);
+		if( !is_null($this->options_comments) ) {
+			if($this->options_comments["advanced_wordpress_configuration_plugin_correctCommentCount"] ) {
+				add_filter('get_comments_number', array($this, 'correctCommentCount'), 0);
+			}
 		}
-
 		
 	}
 
