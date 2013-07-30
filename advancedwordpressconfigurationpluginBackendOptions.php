@@ -459,7 +459,12 @@ class advancedwordpressconfigurationpluginBackendOptions {
 		switch($args['type']) {
 
 			case 'checkbox':
-				echo '<input id="'.$this->activeTab.'['.$args['option_name'].']" name="'.$this->activeTab.'['.$args['option_name'].']" type="checkbox" value="1" ' . checked( $options[$args['option_name']], 1, false ) . ' />';
+
+				$checked = '';
+				if( isset($options[$args['option_name']]) ) {
+					$checked = checked( $options[$args['option_name']], 1, false );
+				}
+				echo '<input id="'.$this->activeTab.'['.$args['option_name'].']" name="'.$this->activeTab.'['.$args['option_name'].']" type="checkbox" value="1" ' . $checked . '/>';
 
 				if($args['label']) echo '<label for="'.$this->activeTab.'['.$args['option_name'].']"> '  . $args['label'] . '</label>';
 
@@ -469,7 +474,11 @@ class advancedwordpressconfigurationpluginBackendOptions {
 
 			case 'input':
 
-				echo '<input type="text" ' . $class . 'id="'.$this->activeTab.'['.$args['option_name'].']" name="'.$this->activeTab.'['.$args['option_name'].']" value="' . esc_attr($options[$args['option_name']]) . '" />';  
+				$value = '';
+				if( isset($options[$args['option_name']]) ) {
+					$value = esc_attr($options[$args['option_name']]);
+				}
+				echo '<input type="text" ' . $class . 'id="'.$this->activeTab.'['.$args['option_name'].']" name="'.$this->activeTab.'['.$args['option_name'].']" value="' . $value . '" />';  
 
 				if($args['label']) echo '<br><label for="'.$this->activeTab.'['.$args['option_name'].']" ><span class="description"> '  . $args['label'] . '</span></label>';
 
@@ -478,9 +487,11 @@ class advancedwordpressconfigurationpluginBackendOptions {
 				break;	
 
 			case 'number':
-
-				echo '<input type="number" id="'.$this->activeTab.'['.$args['option_name'].']" name="'.$this->activeTab.'['.$args['option_name'].']" value="' . $options[$args['option_name']] . '" />';  
-
+				$value = '';
+				if( isset($options[$args['option_name']]) ) {
+					$value = $options[$args['option_name']];
+				}
+				echo '<input type="number" id="'.$this->activeTab.'['.$args['option_name'].']" name="'.$this->activeTab.'['.$args['option_name'].']" value="' . $value . '" />';  
 				if($args['label']) echo '<label for="'.$this->activeTab.'['.$args['option_name'].']" ><span class="description"> '  . $args['label'] . '</span></label>';
 
 				echo '<br />';
