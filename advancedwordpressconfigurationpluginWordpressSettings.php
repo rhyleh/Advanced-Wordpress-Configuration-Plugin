@@ -51,57 +51,57 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		if( !is_null($this->options_backend) ) {
 		
 			//remove menus we never use
-			if($this->options_backend["advanced_wordpress_configuration_plugin_removeBackendMenus"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removeBackendMenus"]) ) {
 				add_action('admin_menu', array($this, 'removeBackendMenus') );
 			}
 		
 			//remove default widgets we never use
-			if($this->options_backend["advanced_wordpress_configuration_plugin_customizeDashboardWidgets"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customizeDashboardWidgets"]) ) {
 				add_action('wp_dashboard_setup', array($this, 'customizeDashboardWidgets') );
 			}
 
 			// Custom CSS for the whole admin area
-			if($this->options_backend["advanced_wordpress_configuration_plugin_customBackend"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customBackend"]) ) {
 				add_action('admin_head', array($this, 'customBackend'));
 			}
 
 			//loads a background image into login screen
-			if($this->options_backend["advanced_wordpress_configuration_plugin_customLoginImage"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customLoginImage"]) ) {
 				add_action( 'login_enqueue_scripts', array($this, 'customLoginImage') );
 			}
 
 			// Custom CSS for the login page
-			if($this->options_backend["advanced_wordpress_configuration_plugin_customLoginCSS"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customLoginCSS"]) ) {
 				add_action('login_head', array($this, 'customLoginCSS'));
 			}
 
 			//removes color scheme selection from user profile
-			if($this->options_backend["advanced_wordpress_configuration_plugin_admin_color_scheme_picker"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_admin_color_scheme_picker"]) ) {
 				remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
 			}
 
 			// remove the notifications of the core
-			if($this->options_backend["advanced_wordpress_configuration_plugin_hideUpdateNag"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_hideUpdateNag"]) ) {
 				remove_action( 'admin_menu', 'hideUpdateNag' );
 			}
 
 			//disables the dragging of widgets in dashboard
-			if($this->options_backend["advanced_wordpress_configuration_plugin_disableDragDashboardWidgets"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_disableDragDashboardWidgets"]) ) {
 				add_action( 'admin_init', array($this, 'disableDragDashboardWidgets') );
 			}
 
 			//shows an admin message to backend users
-			if($this->options_backend["advanced_wordpress_configuration_plugin_showAdminMessage"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_showAdminMessage"]) ) {
 				add_action( 'admin_notices', array($this, 'showAdminMessages') );
 			}
 
 			//shows an admin message to backend users
-			if($this->options_backend["advanced_wordpress_configuration_plugin_hideHelpTab"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_hideHelpTab"]) ) {
 				add_action( 'admin_head', array($this, 'hideHelpTab') );
 			}
 
 			//removes meta boxes from editing screen
-			if($this->options_backend["advanced_wordpress_configuration_plugin_removeMetaBoxes"] ) {
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removeMetaBoxes"]) ) {
 				add_action( 'admin_menu', array($this, 'removeMetaBoxes') );
 				add_action( 'do_meta_boxes', array($this, 'removeMetaBoxes2') );
 			}
@@ -114,24 +114,24 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 		if( !is_null($this->options_frontend) ) {
 
-			if($this->options_frontend["advanced_wordpress_configuration_plugin_deregisterPluginStyles"] ) {
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_deregisterPluginStyles"]) ) {
 				add_action( 'wp_print_styles', array( &$this, 'deregisterPluginStyles'), 100 );
 			}
 
-			if($this->options_frontend['advanced_wordpress_configuration_plugin_metaImageThumb'] ) {
+			if( isset($this->options_frontend['advanced_wordpress_configuration_plugin_metaImageThumb']) ) {
 				add_action('wp_head', array( &$this, 'metaImageThumb') );
 			}
 
-			if($this->options_frontend['advanced_wordpress_configuration_plugin_addBreadcrumbAction'] ) {
+			if( isset($this->options_frontend['advanced_wordpress_configuration_plugin_addBreadcrumbAction']) ) {
 				add_action('the_breadcrumb', array( &$this, 'addBreadcrumbAction') );
 			}
 
-			if($this->options_frontend['advanced_wordpress_configuration_plugin_setSearchResultsPerPage'] ) {
+			if( isset($this->options_frontend['advanced_wordpress_configuration_plugin_setSearchResultsPerPage']) ) {
 				add_action('pre_get_posts', array( &$this, 'setSearchResultsPerPage') );
 			}
 
 			//remove header stuff
-			if(get_option("advanced_wordpress_configuration_plugin_removeHeaderLinks")) {
+			if( get_option("advanced_wordpress_configuration_plugin_removeHeaderLinks") ) {
 				add_action('init', array($this, 'removeHeaderLinks') );
 			}
 		}
@@ -144,7 +144,7 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		if( !is_null($this->options_rss) ) {
 
 			//set in plugin options, default is false: disable RSS feeds
-			if($this->options_rss["advanced_wordpress_configuration_plugin_disableRSS"] ) {
+			if( isset($this->options_rss["advanced_wordpress_configuration_plugin_disableRSS"]) ) {
 				add_action('do_feed', array($this, 'disableRSS'), 1);
 				add_action('do_feed_rdf', array($this, 'disableRSS'), 1);
 				add_action('do_feed_rss', array($this, 'disableRSS'), 1);
@@ -164,21 +164,21 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		if( !is_null($this->options_adminbar) ) {
 
 			//customizes the admin bar
-			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_removeFromAdminBar"] ) {
+			if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_removeFromAdminBar"]) ) {
 				add_action( 'wp_before_admin_bar_render', array($this, 'removeFromAdminBar') );
 			}
 
-			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_customizeAdminbar"] ) {
+			if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_customizeAdminbar"]) ) {
 				add_action( 'wp_before_admin_bar_render', array($this, 'customizeAdminBar') );
 			}
 
 			//open site links in new browser window
-			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_openSiteLinkNewWindow"] ) {
+			if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_openSiteLinkNewWindow"]) ) {
 				add_action( 'wp_before_admin_bar_render', array($this, 'openSiteLinkNewWindow') );
 			}
 
 			// additonal help information
-			if( $this->options_adminbar["advanced_wordpress_configuration_plugin_addHelpForEditors"] ) {
+			if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_addHelpForEditors"]) ) {
 				add_action( 'load-post.php', array($this, 'addHelpForEditors') );
 			}
 		}
@@ -201,21 +201,21 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 
 		//General
-		if($this->options_general["advanced_wordpress_configuration_plugin_correctTagForCustomTaxonomies"] ) {
+		if( isset($this->options_general["advanced_wordpress_configuration_plugin_correctTagForCustomTaxonomies"]) ) {
 			add_filter('request', array($this, 'correctTagForCustomTaxonomies') );
 		}
 
 		//mime type erweitern
-		if($this->options_general["advanced_wordpress_configuration_plugin_customUploadMimes"] ) {
+		if( isset($this->options_general["advanced_wordpress_configuration_plugin_customUploadMimes"]) ) {
 			add_filter('upload_mimes', array($this, 'customUploadMimes') );
 		}
 
 		//logout to front page
-		if($this->options_general["advanced_wordpress_configuration_plugin_logoutToHomepage"] ) {
+		if( isset($this->options_general["advanced_wordpress_configuration_plugin_logoutToHomepage"]) ) {
 			add_filter('logout_url', array($this, 'logoutToHomepage'), 10, 2 );
 		}
 
-		if($this->options_general["advanced_wordpress_configuration_plugin_disableAutoP"] ) {
+		if( isset($this->options_general["advanced_wordpress_configuration_plugin_disableAutoP"]) ) {
 			remove_filter ('the_content',  'wpautop');
 		}
 
@@ -226,70 +226,70 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		//backend
 
 		//removes columns from posts view
-		if($this->options_backend["advanced_wordpress_configuration_plugin_removePostColumns"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removePostColumns"]) ) {
 			add_filter('manage_posts_columns', array($this, 'removePostColumns') );
 		}
 
 		//removes columns from page view
-		if($this->options_backend["advanced_wordpress_configuration_plugin_removePageColumns"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removePageColumns"]) ) {
 			add_filter('manage_pages_columns', array($this, 'removePageColumns') );
 		}
 
 		//Enable shortcodes in widgets
-		if($this->options_backend["advanced_wordpress_configuration_plugin_addShortcodetoWidgets"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addShortcodetoWidgets"]) ) {
 			add_filter('widget_text', 'do_shortcode', 11);
 		}
 
 		//custom tiny mce
-		if($this->options_backend["advanced_wordpress_configuration_plugin_customTinymce"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customTinymce"]) ) {
 			add_filter( 'mce_buttons_2', array($this, 'customTinymce') );
 			add_filter( 'tiny_mce_before_init', array($this, 'customTinymceSettings') );
 		}
 
 		//change text in backend footer
-		if($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooter"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooter"]) ) {
 			add_filter('admin_footer_text', array($this, 'backendChangeFooter'));
 		}
 
 		//changes the Wordpress version text in footer
-		if($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooterVersion"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooterVersion"]) ) {
 			add_filter('update_footer', array($this, 'backendChangeFooterVersion'), 9999 );
 		}
 
 		//add phone field to user and hide other info
-		if($this->options_backend["advanced_wordpress_configuration_plugin_addUserContactFields"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addUserContactFields"]) ) {
 			add_filter('user_contactmethods', array($this, 'addUserContactFields'));
 		}
 
-		if($this->options_backend["advanced_wordpress_configuration_plugin_removeUserContactFields"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removeUserContactFields"]) ) {
 			add_filter('user_contactmethods', array($this, 'removeUserContactFields'));
 		}
 
 		//add a new avatar to avatar select options
-		if($this->options_backend["advanced_wordpress_configuration_plugin_addNewGravatar"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addNewGravatar"]) ) {
 			add_filter('avatar_defaults', array($this, 'addNewGravatar'));
 		}
 
 		//add iframe support in tinymce
-		if($this->options_backend["advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE"]) ) {
 			add_filter('tiny_mce_before_init', create_function( '$a', '$a["extended_valid_elements"] = "iframe[*]"; return $a;') );
 		}
 
 		//add thumbnail column to posts
-		if($this->options_backend["advanced_wordpress_configuration_plugin_addPostThumbnailColumn"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addPostThumbnailColumn"]) ) {
 			add_filter('manage_posts_columns', array($this, 'addPostThumbnailColumn'), 5);
 			add_action('manage_posts_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
 		}
 
 		//add thumbnail column to posts
-		if($this->options_backend["advanced_wordpress_configuration_plugin_addPageThumbnailColumn"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addPageThumbnailColumn"]) ) {
 			add_filter('manage_pages_columns', array($this, 'addPostThumbnailColumn'), 5);
 			add_action('manage_pages_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
 		}
 
 		//remove post format UI (WordPress 3.6 and up)
 		//copied from http://bueltge.de/post-format-ui-deaktivieren/2587/
-		if($this->options_backend["advanced_wordpress_configuration_plugin_hidePostFormatUI"] ) {
+		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_hidePostFormatUI"]) ) {
 			add_filter( 'enable_post_format_ui', '__return_false' );
 		}
 
@@ -297,7 +297,7 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 
 		//completely remove admin bar
-		if($this->options_adminbar["advanced_wordpress_configuration_plugin_removeAdminbar"] ) {
+		if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_removeAdminbar"]) ) {
 			add_filter( 'show_admin_bar', array($this, 'removeAdminbar') );
 		}
 
@@ -311,51 +311,51 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 
 		//Define how many words to return when using the_excerpt();
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_customExcerptLength"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_customExcerptLength"]) ) {
 			add_filter( 'excerpt_length', array($this, 'customExcerptLength') );
 		}
 
 		//Pingback Header abschalten
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_removePingbackHeader"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removePingbackHeader"]) ) {
 			add_filter(	'wp_headers', create_function(	'$h','unset($h["X-Pingback"]); return $h;'	));
 		}
 
 		// remove 'Read more' link
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_removeExcerptMore"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removeExcerptMore"]) ) {
 			add_filter('excerpt_more', array($this, 'removeExcerptMore'));
 		}
 
 		//Add parent page slug to body_class
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_addBodyClass"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addBodyClass"]) ) {
 			add_filter('body_class', array($this, 'addBodyClass') );
 		}
 
 		//completely remove wordpress version
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_removeWordpressVersion"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removeWordpressVersion"]) ) {
 			add_filter('the_generator', array($this, 'removeWordpressVersion') );
 		}
 
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_keepUserLoggedIn"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_keepUserLoggedIn"]) ) {
 			add_filter( 'auth_cookie_expiration', array($this, 'keepUserLoggedIn') );
 		}
 
 		//change external links in content
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_styleExternalLinks"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_styleExternalLinks"]) ) {
 			add_filter('the_content', array($this, 'styleExternalLinks'));
 		}
 
 		//add a class to the first post
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_addClassToFirstPost"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addClassToFirstPost"]) ) {
 			add_filter('post_class', array($this, 'styleFirstPost'));
 		}
 
 		//adds the category slug to list categories
-		if($this->options_frontend["advanced_wordpress_configuration_plugin_addSlugClassToCategoryList"] ) {
+		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addSlugClassToCategoryList"]) ) {
 			add_filter('wp_list_categories', array($this, 'addSlugClassToCategoryList'));
 		}
 
 
-		if($this->options_frontend['advanced_wordpress_configuration_plugin_removeWidthHeightFromImage'] ) {
+		if( isset($this->options_frontend['advanced_wordpress_configuration_plugin_removeWidthHeightFromImage']) ) {
 			add_filter( 'post_thumbnail_html', array($this, 'removeWidthHeightFromImage'), 10 );
 			add_filter( 'image_send_to_editor', array($this, 'removeWidthHeightFromImage'), 10 );
 		}
@@ -369,22 +369,22 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 
 		//Delay publish to RSS feed, default 10 minutes
-		if($this->options_rss["advanced_wordpress_configuration_plugin_delayPublishRSS"] ) {
+		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_delayPublishRSS"]) ) {
 			add_filter('posts_where',  array($this, 'delayPublishRSS') );
 		}
 
 		//adds the post thumbnail to the rss feed
-		if($this->options_rss["advanced_wordpress_configuration_plugin_addThumbnailToRSS"] ) {
+		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_addThumbnailToRSS"]) ) {
 			add_filter('the_excerpt_rss', array($this, 'addThumbnailToRSS') );
 			add_filter('the_content_feed', array($this, 'addThumbnailToRSS') );
 		}
 
-		if($this->options_rss["advanced_wordpress_configuration_plugin_customizeRSSFooter"] ) {
+		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_customizeRSSFooter"]) ) {
 			add_filter('the_excerpt_rss', array($this, 'customizeRSSFooter') );
 			add_filter('the_content_feed', array($this, 'customizeRSSFooter') );
 		}
 
-		if($this->options_rss["advanced_wordpress_configuration_plugin_removeCategoryFromFeed"] ) {
+		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_removeCategoryFromFeed"]) ) {
 			add_filter('pre_get_posts', array($this, 'removeCategoryFromFeed') );
 		}
 
@@ -402,12 +402,12 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		if( !is_null($this->options_javascript) ) {
 
 			//set in plugin options, default is false: add jquery from cdn
-			if( $this->options_javascript["advanced_wordpress_configuration_plugin_jqueryFromCdn"] ) {
+			if( isset($this->options_javascript["advanced_wordpress_configuration_plugin_jqueryFromCdn"]) ) {
 				add_action( 'init', array($this, 'jqueryFromCdn') );
 			}
 
 			//adds a defer='defer' to javascripts in header
-			if( $this->options_javascript["advanced_wordpress_configuration_plugin_deferJavascript"] ) {
+			if( isset($this->options_javascript["advanced_wordpress_configuration_plugin_deferJavascript"]) ) {
 				add_filter( 'clean_url', array($this, 'addScriptDefer'), 99, 1);
 			}
 		}
@@ -417,7 +417,7 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 		//By default, WordPress counts trackbacks, and pings as comments. This inflates the comment count which looks really bad especially when you are not displaying the trackbacks and pings.
 		if( !is_null($this->options_comments) ) {
-			if($this->options_comments["advanced_wordpress_configuration_plugin_correctCommentCount"] ) {
+			if(isset($this->options_comments["advanced_wordpress_configuration_plugin_correctCommentCount"]) ) {
 				add_filter('get_comments_number', array($this, 'correctCommentCount'), 0);
 			}
 		}
