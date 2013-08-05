@@ -37,20 +37,24 @@ class advancedwordpressconfigurationpluginBase {
 		include 'advancedwordpressconfigurationpluginWordpressSettings.php';
 		new advancedwordpressconfigurationpluginWordpressSettings();
 
-		include 'advancedwordpressconfigurationpluginBackendOptions.php';
-		new advancedwordpressconfigurationpluginBackendOptions();
-
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'plugin_textdomain' ) );
 
-		$this->register_admin_styles();
-		$this->register_admin_scripts();
-		$this->register_plugin_styles();
-		$this->register_plugin_scripts();
-
+		//Load backend options and admin styles only in admin section
+		if( is_admin() ) {
+			
+			include 'advancedwordpressconfigurationpluginBackendOptions.php';
+			new advancedwordpressconfigurationpluginBackendOptions();
+			
+			$this->register_admin_styles();
+			$this->register_admin_scripts();
+		} else {
+			$this->register_plugin_styles();
+			$this->register_plugin_scripts();
+		}
+		
 		//set error handler
 		set_error_handler(array($this, "customError"), E_USER_WARNING);
-
 	}
 
 
@@ -73,7 +77,7 @@ class advancedwordpressconfigurationpluginBase {
 	 */
 	public function register_admin_styles() {
 
-		//wp_enqueue_style( 'advanced-wordpress-configuration-plugin-admin-styles', plugins_url( 'css/admin.css', __FILE__ ) );
+		wp_enqueue_style( 'advanced-wordpress-configuration-plugin-admin-styles', plugins_url( 'css/admin.css', __FILE__ ) );
 
 	}
 

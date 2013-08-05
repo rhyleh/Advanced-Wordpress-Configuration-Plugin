@@ -4,17 +4,9 @@
    * Modifying wordpress
    *
    * @author     T. Boehning
-   * @version	1
+   * @version	1.1
    *
    *
-
-   Put in config.php
-   define( 'WP_CONTENT_DIR', $_SERVER['DOCUMENT_ROOT'] . '/new-wp-content' );
-   define( 'WP_CONTENT_URL', 'http://example/new-wp-content');
-
-
-
-
    */
 class advancedwordpressconfigurationpluginWordpressSettings {
 
@@ -199,106 +191,110 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 	 */
 	function registerFilters() {
 
+		if( !is_null($this->options_general) ) {
 
-		//General
-		if( isset($this->options_general["advanced_wordpress_configuration_plugin_correctTagForCustomTaxonomies"]) ) {
-			add_filter('request', array($this, 'correctTagForCustomTaxonomies') );
+			//General
+			if( isset($this->options_general["advanced_wordpress_configuration_plugin_correctTagForCustomTaxonomies"]) ) {
+				add_filter('request', array($this, 'correctTagForCustomTaxonomies') );
+			}
+
+			//mime type erweitern
+			if( isset($this->options_general["advanced_wordpress_configuration_plugin_customUploadMimes"]) ) {
+				add_filter('upload_mimes', array($this, 'customUploadMimes') );
+			}
+
+			//logout to front page
+			if( isset($this->options_general["advanced_wordpress_configuration_plugin_logoutToHomepage"]) ) {
+				add_filter('logout_url', array($this, 'logoutToHomepage'), 10, 2 );
+			}
+
+			if( isset($this->options_general["advanced_wordpress_configuration_plugin_disableAutoP"]) ) {
+				remove_filter ('the_content',  'wpautop');
+			}
 		}
-
-		//mime type erweitern
-		if( isset($this->options_general["advanced_wordpress_configuration_plugin_customUploadMimes"]) ) {
-			add_filter('upload_mimes', array($this, 'customUploadMimes') );
-		}
-
-		//logout to front page
-		if( isset($this->options_general["advanced_wordpress_configuration_plugin_logoutToHomepage"]) ) {
-			add_filter('logout_url', array($this, 'logoutToHomepage'), 10, 2 );
-		}
-
-		if( isset($this->options_general["advanced_wordpress_configuration_plugin_disableAutoP"]) ) {
-			remove_filter ('the_content',  'wpautop');
-		}
-
 
 
 
 		
 		//backend
+		if( !is_null($this->options_backend) ) {
+		
+			//removes columns from posts view
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removePostColumns"]) ) {
+				add_filter('manage_posts_columns', array($this, 'removePostColumns') );
+			}
 
-		//removes columns from posts view
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removePostColumns"]) ) {
-			add_filter('manage_posts_columns', array($this, 'removePostColumns') );
+			//removes columns from page view
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removePageColumns"]) ) {
+				add_filter('manage_pages_columns', array($this, 'removePageColumns') );
+			}
+
+			//Enable shortcodes in widgets
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addShortcodetoWidgets"]) ) {
+				add_filter('widget_text', 'do_shortcode', 11);
+			}
+
+			//custom tiny mce
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customTinymce"]) ) {
+				add_filter( 'mce_buttons_2', array($this, 'customTinymce') );
+				add_filter( 'tiny_mce_before_init', array($this, 'customTinymceSettings') );
+			}
+
+			//change text in backend footer
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooter"]) ) {
+				add_filter('admin_footer_text', array($this, 'backendChangeFooter'));
+			}
+
+			//changes the Wordpress version text in footer
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooterVersion"]) ) {
+				add_filter('update_footer', array($this, 'backendChangeFooterVersion'), 9999 );
+			}
+
+			//add phone field to user and hide other info
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addUserContactFields"]) ) {
+				add_filter('user_contactmethods', array($this, 'addUserContactFields'));
+			}
+
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removeUserContactFields"]) ) {
+				add_filter('user_contactmethods', array($this, 'removeUserContactFields'));
+			}
+
+			//add a new avatar to avatar select options
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addNewGravatar"]) ) {
+				add_filter('avatar_defaults', array($this, 'addNewGravatar'));
+			}
+
+			//add iframe support in tinymce
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE"]) ) {
+				add_filter('tiny_mce_before_init', create_function( '$a', '$a["extended_valid_elements"] = "iframe[*]"; return $a;') );
+			}
+
+			//add thumbnail column to posts
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addPostThumbnailColumn"]) ) {
+				add_filter('manage_posts_columns', array($this, 'addPostThumbnailColumn'), 5);
+				add_action('manage_posts_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
+			}
+
+			//add thumbnail column to posts
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addPageThumbnailColumn"]) ) {
+				add_filter('manage_pages_columns', array($this, 'addPostThumbnailColumn'), 5);
+				add_action('manage_pages_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
+			}
+
+			//remove post format UI (WordPress 3.6 and up)
+			//copied from http://bueltge.de/post-format-ui-deaktivieren/2587/
+			if( isset($this->options_backend["advanced_wordpress_configuration_plugin_hidePostFormatUI"]) ) {
+				add_filter( 'enable_post_format_ui', '__return_false' );
+			}
 		}
-
-		//removes columns from page view
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removePageColumns"]) ) {
-			add_filter('manage_pages_columns', array($this, 'removePageColumns') );
-		}
-
-		//Enable shortcodes in widgets
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addShortcodetoWidgets"]) ) {
-			add_filter('widget_text', 'do_shortcode', 11);
-		}
-
-		//custom tiny mce
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_customTinymce"]) ) {
-			add_filter( 'mce_buttons_2', array($this, 'customTinymce') );
-			add_filter( 'tiny_mce_before_init', array($this, 'customTinymceSettings') );
-		}
-
-		//change text in backend footer
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooter"]) ) {
-			add_filter('admin_footer_text', array($this, 'backendChangeFooter'));
-		}
-
-		//changes the Wordpress version text in footer
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_backendChangeFooterVersion"]) ) {
-			add_filter('update_footer', array($this, 'backendChangeFooterVersion'), 9999 );
-		}
-
-		//add phone field to user and hide other info
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addUserContactFields"]) ) {
-			add_filter('user_contactmethods', array($this, 'addUserContactFields'));
-		}
-
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_removeUserContactFields"]) ) {
-			add_filter('user_contactmethods', array($this, 'removeUserContactFields'));
-		}
-
-		//add a new avatar to avatar select options
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addNewGravatar"]) ) {
-			add_filter('avatar_defaults', array($this, 'addNewGravatar'));
-		}
-
-		//add iframe support in tinymce
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE"]) ) {
-			add_filter('tiny_mce_before_init', create_function( '$a', '$a["extended_valid_elements"] = "iframe[*]"; return $a;') );
-		}
-
-		//add thumbnail column to posts
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addPostThumbnailColumn"]) ) {
-			add_filter('manage_posts_columns', array($this, 'addPostThumbnailColumn'), 5);
-			add_action('manage_posts_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
-		}
-
-		//add thumbnail column to posts
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_addPageThumbnailColumn"]) ) {
-			add_filter('manage_pages_columns', array($this, 'addPostThumbnailColumn'), 5);
-			add_action('manage_pages_custom_column', array($this, 'displayPostThumbnailColumn'), 5, 2);
-		}
-
-		//remove post format UI (WordPress 3.6 and up)
-		//copied from http://bueltge.de/post-format-ui-deaktivieren/2587/
-		if( isset($this->options_backend["advanced_wordpress_configuration_plugin_hidePostFormatUI"]) ) {
-			add_filter( 'enable_post_format_ui', '__return_false' );
-		}
-
 
 
 
 		//completely remove admin bar
-		if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_removeAdminbar"]) ) {
-			add_filter( 'show_admin_bar', array($this, 'removeAdminbar') );
+		if( !is_null($this->options_adminbar) ) {
+			if( isset($this->options_adminbar["advanced_wordpress_configuration_plugin_removeAdminbar"]) ) {
+				add_filter( 'show_admin_bar', array($this, 'removeAdminbar') );
+			}
 		}
 
 
@@ -311,83 +307,92 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 
 
 		//Define how many words to return when using the_excerpt();
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_customExcerptLength"]) ) {
-			add_filter( 'excerpt_length', array($this, 'customExcerptLength') );
+		if( !is_null($this->options_frontend) ) {
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_customExcerptLength"]) ) {
+				add_filter( 'excerpt_length', array($this, 'customExcerptLength') );
+			}
+
+			//Pingback Header abschalten
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removePingbackHeader"]) ) {
+				add_filter(	'wp_headers', create_function(	'$h','unset($h["X-Pingback"]); return $h;'	));
+			}
+
+			// remove 'Read more' link
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removeExcerptMore"]) ) {
+				add_filter('excerpt_more', array($this, 'removeExcerptMore'));
+			}
+
+			//Add parent page slug to body_class
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addBodyClass"]) ) {
+				add_filter('body_class', array($this, 'addBodyClass') );
+			}
+
+			//completely remove wordpress version
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removeWordpressVersion"]) ) {
+				add_filter('the_generator', array($this, 'removeWordpressVersion') );
+			}
+
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_keepUserLoggedIn"]) ) {
+				add_filter( 'auth_cookie_expiration', array($this, 'keepUserLoggedIn') );
+			}
+
+			//change external links in content
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_styleExternalLinks"]) ) {
+				add_filter('the_content', array($this, 'styleExternalLinks'));
+			}
+
+			//add a class to the first post
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addClassToFirstPost"]) ) {
+				add_filter('post_class', array($this, 'styleFirstPost'));
+			}
+
+			//adds the category slug to list categories
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addSlugClassToCategoryList"]) ) {
+				add_filter('wp_list_categories', array($this, 'addSlugClassToCategoryList'));
+			}
+
+
+			if( isset($this->options_frontend['advanced_wordpress_configuration_plugin_removeWidthHeightFromImage']) ) {
+				add_filter( 'post_thumbnail_html', array($this, 'removeWidthHeightFromImage'), 10 );
+				add_filter( 'image_send_to_editor', array($this, 'removeWidthHeightFromImage'), 10 );
+			}
+
+			//links to large version
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_linkToLargeAttachementFile"]) ) {
+				add_filter('wp_get_attachment_link', array($this, 'getAttachmentLinkFilter'), 10, 4);
+			}	
+
+			//wrap more link in div
+			if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_wrapMoreInDiv"]) ) {
+				add_filter('the_content_more_link', array($this, 'wrapReadmore'), 10, 1);
+			}
 		}
 
-		//Pingback Header abschalten
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removePingbackHeader"]) ) {
-			add_filter(	'wp_headers', create_function(	'$h','unset($h["X-Pingback"]); return $h;'	));
+
+
+
+		if( !is_null($this->options_rss) ) {
+			
+			//Delay publish to RSS feed, default 10 minutes
+			if( isset($this->options_rss["advanced_wordpress_configuration_plugin_delayPublishRSS"]) ) {
+				add_filter('posts_where',  array($this, 'delayPublishRSS') );
+			}
+
+			//adds the post thumbnail to the rss feed
+			if( isset($this->options_rss["advanced_wordpress_configuration_plugin_addThumbnailToRSS"]) ) {
+				add_filter('the_excerpt_rss', array($this, 'addThumbnailToRSS') );
+				add_filter('the_content_feed', array($this, 'addThumbnailToRSS') );
+			}
+
+			if( isset($this->options_rss["advanced_wordpress_configuration_plugin_customizeRSSFooter"]) ) {
+				add_filter('the_excerpt_rss', array($this, 'customizeRSSFooter') );
+				add_filter('the_content_feed', array($this, 'customizeRSSFooter') );
+			}
+
+			if( isset($this->options_rss["advanced_wordpress_configuration_plugin_removeCategoryFromFeed"]) ) {
+				add_filter('pre_get_posts', array($this, 'removeCategoryFromFeed') );
+			}
 		}
-
-		// remove 'Read more' link
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removeExcerptMore"]) ) {
-			add_filter('excerpt_more', array($this, 'removeExcerptMore'));
-		}
-
-		//Add parent page slug to body_class
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addBodyClass"]) ) {
-			add_filter('body_class', array($this, 'addBodyClass') );
-		}
-
-		//completely remove wordpress version
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_removeWordpressVersion"]) ) {
-			add_filter('the_generator', array($this, 'removeWordpressVersion') );
-		}
-
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_keepUserLoggedIn"]) ) {
-			add_filter( 'auth_cookie_expiration', array($this, 'keepUserLoggedIn') );
-		}
-
-		//change external links in content
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_styleExternalLinks"]) ) {
-			add_filter('the_content', array($this, 'styleExternalLinks'));
-		}
-
-		//add a class to the first post
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addClassToFirstPost"]) ) {
-			add_filter('post_class', array($this, 'styleFirstPost'));
-		}
-
-		//adds the category slug to list categories
-		if( isset($this->options_frontend["advanced_wordpress_configuration_plugin_addSlugClassToCategoryList"]) ) {
-			add_filter('wp_list_categories', array($this, 'addSlugClassToCategoryList'));
-		}
-
-
-		if( isset($this->options_frontend['advanced_wordpress_configuration_plugin_removeWidthHeightFromImage']) ) {
-			add_filter( 'post_thumbnail_html', array($this, 'removeWidthHeightFromImage'), 10 );
-			add_filter( 'image_send_to_editor', array($this, 'removeWidthHeightFromImage'), 10 );
-		}
-
-
-
-
-
-
-
-
-
-		//Delay publish to RSS feed, default 10 minutes
-		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_delayPublishRSS"]) ) {
-			add_filter('posts_where',  array($this, 'delayPublishRSS') );
-		}
-
-		//adds the post thumbnail to the rss feed
-		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_addThumbnailToRSS"]) ) {
-			add_filter('the_excerpt_rss', array($this, 'addThumbnailToRSS') );
-			add_filter('the_content_feed', array($this, 'addThumbnailToRSS') );
-		}
-
-		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_customizeRSSFooter"]) ) {
-			add_filter('the_excerpt_rss', array($this, 'customizeRSSFooter') );
-			add_filter('the_content_feed', array($this, 'customizeRSSFooter') );
-		}
-
-		if( isset($this->options_rss["advanced_wordpress_configuration_plugin_removeCategoryFromFeed"]) ) {
-			add_filter('pre_get_posts', array($this, 'removeCategoryFromFeed') );
-		}
-
 
 
 
@@ -707,7 +712,8 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		echo "<p><strong>$message</strong></p></div>";
 	} 
 	function showAdminMessages() {
-	    $this->showAdminMessage($this->options_backend['advanced_wordpress_configuration_plugin_showAdminMessage'], true);
+		if(strlen($this->options_backend['advanced_wordpress_configuration_plugin_showAdminMessage']) > 2)
+	    	$this->showAdminMessage($this->options_backend['advanced_wordpress_configuration_plugin_showAdminMessage'], true);
 	}
 
 	/**
@@ -1085,12 +1091,7 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 		foreach ($selectedOptions as $key => $value) {
 			unset($contactmethods[trim($value)]);
 		}
-
-
-
-		//add fields
-		$contactmethods['phone'] = 'Telefonnummer';	//add phone number input field
-
+		
 		return $contactmethods;
 	}
 
@@ -1422,7 +1423,35 @@ class advancedwordpressconfigurationpluginWordpressSettings {
 	   return $html;
 	}
 
+	/**
+	 * Removes the link to the full version of an image and replaces it by a link to the large version
+	 * copied from: http://oikos.org.uk/2011/09/tech-notes-using-resized-images-in-wordpress-galleries-and-lightboxes/
+	 * @param  [type] $content   [description]
+	 * @param  [type] $post_id   [description]
+	 * @param  [type] $size      [description]
+	 * @param  [type] $permalink [description]
+	 * @return [type]            [description]
+	 */
+	function getAttachmentLinkFilter( $content, $post_id, $size, $permalink ) {
+		// Only do this if we're getting the file URL
+		if ( !$permalink) {
+			// This returns an array of (url, width, height)
+			$image = wp_get_attachment_image_src( $post_id, 'large' );
+			$new_content = preg_replace('/href=\'(.*?)\'/', 'href=\'' . $image[0] . '\'', $content );
+			return $new_content;
+		} else {
+			return $content;
+		}
+	}
 
+	/**
+	 * Wraps the more-link in a div instead of a paragraph
+	 * @param  [type] $more_link [description]
+	 * @return [type]            [description]
+	 */
+	function wrapReadmore($more_link) {
+		return '<div class="post-readmore">'.$more_link.'</div>';
+	}
 
 	/**
  	 * remove "Read more" link and simply display three dots

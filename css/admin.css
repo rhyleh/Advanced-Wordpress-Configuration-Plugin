@@ -1,70 +1,19 @@
 /* This stylesheet is used to style the admin option form of the widget. */
 
-#menu-posts-kunden .wp-menu-image {
-            background: url(/wp-content/themes/kollerebbe/library/images/backend/blue-folder-share.png) no-repeat 6px -17px !important;
-        }
-	#menu-posts-kunden:hover .wp-menu-image, #menu-posts-kunden.wp-has-current-submenu .wp-menu-image {
-            background-position:6px 7px !important;
-        }
+.advanced_wordpress_configuration_plugin {
 
-       #menu-posts-arbeiten .wp-menu-image {
-            background: url(/wp-content/themes/kollerebbe/library/images/backend/folder-open-image.png) no-repeat 6px -17px !important;
-        }
-	#menu-posts-arbeiten:hover .wp-menu-image, #menu-posts-arbeiten.wp-has-current-submenu .wp-menu-image {
-            background-position:6px 7px !important;
-        }
-
-
-    #menu-posts-jobs .wp-menu-image {
-            background: url(/wp-content/themes/kollerebbe/library/images/backend/cards-bind-address.png) no-repeat 6px -17px !important;
-        }
-	#menu-posts-jobs:hover .wp-menu-image, #menu-posts-jobs.wp-has-current-submenu .wp-menu-image {
-            background-position:6px 7px !important;
-        }
-
-        #menu-posts-personen .wp-menu-image {
-            background: url(/wp-content/themes/kollerebbe/library/images/backend/users.png) no-repeat 6px -17px !important;
-        }
-	#menu-posts-personen:hover .wp-menu-image, #menu-posts-personen.wp-has-current-submenu .wp-menu-image {
-            background-position:6px 7px !important;
-        }
-
-
-
-
-/* Featured posts */
-
-.yafpp_on, .yafpp_off {
-    background: url('/wp-content/themes/kollerebbe/library/images/backend/stars.png') no-repeat 0 0;
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
 }
 
-.yafpp_off {
-    background-position: -16px 0;
+.advanced_wordpress_configuration_plugin h3 {
+    margin: 0;
+    padding: 0.6em 0 0.3em;
+    border-top: 1px solid #ddd;
 }
 
-td.loading .yafpp_on, td.loading .yafpp_off {
-    display: none;
+.advanced_wordpress_configuration_plugin p.note {
+    margin: 0;
 }
 
-.yafpp_loading {
-    display: none;
-}
-
-td.loading .yafpp_loading {
-    display: inline;
-}
-
-
-/* Download Monitor */
-
-#TB_window {
-            width: 900px !important;
-            margin-left: -450px !important;
-}
-
-#TB_window iframe {
-            width: 100% !important;
+.advanced_wordpress_configuration_plugin table.form-table {
+    margin-bottom: 2em;
 }

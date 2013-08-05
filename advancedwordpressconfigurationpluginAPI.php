@@ -58,7 +58,7 @@ class advancedwordpressconfigurationpluginAPI {
 	* @param string $content
 	*/
 	public function sendEmailNotification($content) {
-		$email_to = array( 'website@email.com' );
+		$email_to = array( 'email@email.email' );
 		$subject = 'Website Notification';
 		$message_headers = '';
 
@@ -95,93 +95,6 @@ class advancedwordpressconfigurationpluginAPI {
 		}
 
 	}
-
-	/**
-	 * Returns a string for a class attribute, which has either the
-	 * values 'firstItem' or 'lastItem' (or both). Whether the
-	 * these values apply is determined by the position of the element
-	 * and the maximum positions available. If the element is neither
-	 * the first nor the last element, an empty string is returned.
-	 *
-	 * @param int $position
-	 * @param int $max
-	 */
-	protected function getPositionExtraClass($position, $max) {
-		$extraClass = '';
-
-		// set extra class when item is first
-		if ($position == 0) {
-			$extraClass .= 'firstItem';
-		}
-
-		// set extra class when item is last
-		if ($position == $max) {
-			if ($extraClass) {
-				$extraClass .= ' '; // add spacer if 'firstItem' is already set.
-			}
-			$extraClass .= 'lastItem';
-		}
-
-		return $extraClass;
-	}
-
-
-	/**
-	 * Splits the content into two columns based on the more-tag in wordpress backend
-	 * columns get the following classes: column, columnLeft/columnRight
-	 *
-	 * @param string $content (optional) the content which will be split, if not set, the_content will be used.
-	 * @return string $return
-	 */
-	public function  split_content($content = null) {
-		global $more;
-		$more = true;
-
-		//repeater fields are passed to the function, regular content like in works just call this function and get the main content field
-		if($content === null) {
-			$content = get_the_content('more');
-
-			//split the content at "more" tags
-			$content = preg_split('/<span id="more-\d+"><\/span>/i', $content);
-		}
-
-		else {
-			//split the content at "more" tags, filters have already been applied, thats why we look for the comment...
-			$content = explode('<!--more-->', $content);
-		}
-
-
-		//if there is a more tag, return two columns
-		if(count($content) > 1 ) {
-
-			//save the parts to array
-			for($c = 0, $csize = count($content); $c < $csize; $c++) {
-				$content[$c] = apply_filters('the_content', $content[$c]);
-			}
-
-			$return = '<div class="column columnLeft">'. array_shift($content). '</div>';
-			//dump all the rest in second column
-			$return .= '<div class="column columnRight">'. $this->remove_empty_p(implode($content)).'</div>';
-		}
-
-		//no more tag? just return the content
-		else {
-			$return = $content[0];
-		}
-
-		return $return;
-	}
-
-	/**
- 	 * removes empty paragraphs
-	 * @param string $content
-	 * @return string html content
-	 */
-	function remove_empty_p($content){
-		$content = force_balance_tags($content);
-		return preg_replace('#<p>\s*+(<br\s*/*>)?\s*</p>#i', '', $content);
-	}
-
 
 
 	/**

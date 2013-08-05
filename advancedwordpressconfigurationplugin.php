@@ -3,7 +3,7 @@
 Plugin Name: Advanced Wordpress Configuration Plugin
 Plugin URI: https://github.com/rhyleh/Advanced-Wordpress-Configuration-Plugin
 Description: Enables advanced backend/frontend settings
-Version: 1.5
+Version: 1.6
 Author: T. Böhning
 Author URI https://github.com/rhyleh/Advanced-Wordpress-Configuration-Plugin
 Author Email: boehning@gmail.com
