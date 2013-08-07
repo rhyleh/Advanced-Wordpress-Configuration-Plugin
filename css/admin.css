@@ -1,13 +1,29 @@
 /* This stylesheet is used to style the admin option form of the widget. */
 
-.advanced_wordpress_configuration_plugin {
 
+
+.advanced_wordpress_configuration_plugin .form-table {
+	margin-top: 0;
+}
+
+.advanced_wordpress_configuration_plugin table tbody tr th {
+	width: 22%;
+	padding-left: 1.1em;
+	vertical-align: top;
+	background: #F9F9F9;
+	border-top: 1px solid #f0f0f0;
+	border-right: 1px solid #E1E1E1;
+}
+.advanced_wordpress_configuration_plugin table tbody tr td {
+	background: #FFF;
+	padding: 13px 15px;
+	border-top: 1px solid #f5f5f5;
+	border-bottom: 0 none;
 }
 
 .advanced_wordpress_configuration_plugin h3 {
     margin: 0;
     padding: 0.6em 0 0.3em;
-    border-top: 1px solid #ddd;
 }
 
 .advanced_wordpress_configuration_plugin p.note {
@@ -16,4 +32,32 @@
 
 .advanced_wordpress_configuration_plugin table.form-table {
     margin-bottom: 2em;
+}
+
+
+.advanced_wordpress_configuration_plugin .awcp_section {
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(bottom, #F9F9F9 0%, #E6E6E6 100%);
+
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(bottom, #F9F9F9 0%, #E6E6E6 100%);
+
+	/* Opera */ 
+	background-image: -o-linear-gradient(bottom, #F9F9F9 0%, #E6E6E6 100%);
+
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #F9F9F9), color-stop(1, #E6E6E6));
+
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(bottom, #F9F9F9 0%, #E6E6E6 100%);
+
+	/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to top, #F9F9F9 0%, #E6E6E6 100%);
+	
+	padding: 0.4em 1em 1em;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+#wpbody select[multiple] {
+	height: auto !important;
 }

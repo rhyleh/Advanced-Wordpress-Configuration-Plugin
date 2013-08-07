@@ -21,19 +21,18 @@ class advancedwordpressconfigurationpluginBackendOptions {
  		$this->page_name = 'advanced-wordpress-configuration-plugin-options';
 
  		$this->setting_sections = array( 	
- 								'advanced_wordpress_configuration_plugin_general' 	=> __('General', 'advanced-wordpress-configuration-plugin-locale'), 
-								'advanced_wordpress_configuration_plugin_backend' 	=>  __('Backend', 'advanced-wordpress-configuration-plugin-locale'), 
-								'advanced_wordpress_configuration_plugin_frontend' 	=>  __('Frontend', 'advanced-wordpress-configuration-plugin-locale'), 
-								'advanced_wordpress_configuration_plugin_rss' 		=>  __('RSS', 'advanced-wordpress-configuration-plugin-locale'), 
-								'advanced_wordpress_configuration_plugin_javascript' =>  __('Javascript', 'advanced-wordpress-configuration-plugin-locale'), 
-								'advanced_wordpress_configuration_plugin_adminbar' 	=>  __('Adminbar', 'advanced-wordpress-configuration-plugin-locale'), 
-								'advanced_wordpress_configuration_plugin_comments' 	=>  __('Comments', 'advanced-wordpress-configuration-plugin-locale') );
+			'advanced_wordpress_configuration_plugin_general' 	=> __('General', 'advanced-wordpress-configuration-plugin-locale'), 
+			'advanced_wordpress_configuration_plugin_backend' 	=>  __('Backend', 'advanced-wordpress-configuration-plugin-locale'), 
+			'advanced_wordpress_configuration_plugin_frontend' 	=>  __('Frontend', 'advanced-wordpress-configuration-plugin-locale'), 
+			'advanced_wordpress_configuration_plugin_rss' 		=>  __('RSS', 'advanced-wordpress-configuration-plugin-locale'), 
+			'advanced_wordpress_configuration_plugin_javascript' =>  __('Javascript', 'advanced-wordpress-configuration-plugin-locale'), 
+			'advanced_wordpress_configuration_plugin_adminbar' 	=>  __('Adminbar', 'advanced-wordpress-configuration-plugin-locale'), 
+			'advanced_wordpress_configuration_plugin_comments' 	=>  __('Comments', 'advanced-wordpress-configuration-plugin-locale'),
+			'advanced_wordpress_configuration_plugin_mobile' 	=>  __('Mobile', 'advanced-wordpress-configuration-plugin-locale') );
 
 		add_action('admin_menu', array(&$this, 'createOptionsPage'));
 
 	}
-
-	
 
 
 	/**
@@ -50,7 +49,6 @@ class advancedwordpressconfigurationpluginBackendOptions {
 
 		add_action('admin_init', array($this, 'registerPluginSettings') );
 	}
-
 
 
 	/**
@@ -102,7 +100,7 @@ class advancedwordpressconfigurationpluginBackendOptions {
 		//2. Add a setting section that will contain one or more setting fields: id of section, title, name of output function, name of section
 		add_settings_section(
 			'advanced_wordpress_configuration_plugin_general_section', 			// ID used to identify this section and with which to register options
-			__('General Options', 'advanced-wordpress-configuration-plugin-locale'), // Title to be displayed on the administration page  
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //General Options - Output is not good enough for styling 
 			array($this, 'intro_advanced_wordpress_configuration_plugin_general'), 	// Callback used to render the description of the section  
 			'advanced_wordpress_configuration_plugin_general'			// Page on which to add this section of options  
 		);
@@ -111,28 +109,42 @@ class advancedwordpressconfigurationpluginBackendOptions {
 
 		add_settings_section(
 			'advanced_wordpress_configuration_plugin_backend_section', 
-			__('Backend Options', 'advanced-wordpress-configuration-plugin-locale'), 	
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //ackend Options - Output is not good enough for styling	
 			array($this, 'intro_advanced_wordpress_configuration_plugin_backend'), 
 			'advanced_wordpress_configuration_plugin_backend'
 		);
 
 		add_settings_section(
+			'advanced_wordpress_configuration_plugin_backend_section_customize', 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //ackend Options - Output is not good enough for styling	
+			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_customize'), 
+			'advanced_wordpress_configuration_plugin_backend'
+		);
+
+		add_settings_section(
+			'advanced_wordpress_configuration_plugin_backend_section_richtexteditor', 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //ackend Options - Output is not good enough for styling	
+			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_richtexteditor'), 
+			'advanced_wordpress_configuration_plugin_backend'
+		);
+
+		add_settings_section(
 			'advanced_wordpress_configuration_plugin_backend_section_profile', 
-			__('Profile page', 'advanced-wordpress-configuration-plugin-locale'), 	
+			__('', 'advanced-wordpress-configuration-plugin-locale'), 	//Profile page - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_profile'), 
 			'advanced_wordpress_configuration_plugin_backend'
 		);
 
 		add_settings_section(
 			'advanced_wordpress_configuration_plugin_backend_section_columns', 
-			__('Columns', 'advanced-wordpress-configuration-plugin-locale'), 	
+			__('', 'advanced-wordpress-configuration-plugin-locale'), 	//Columns - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_columns'), 
 			'advanced_wordpress_configuration_plugin_backend'
 		);
 
 		add_settings_section(
 			'advanced_wordpress_configuration_plugin_backend_section_dashboard', 
-			__('Dashboard', 'advanced-wordpress-configuration-plugin-locale'), 	
+			__('', 'advanced-wordpress-configuration-plugin-locale'), 	//Dashboard - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_dashboard'), 
 			'advanced_wordpress_configuration_plugin_backend'
 		);
@@ -140,42 +152,48 @@ class advancedwordpressconfigurationpluginBackendOptions {
 
 
 		add_settings_section('advanced_wordpress_configuration_plugin_rss_section', 
-			__('RSS Options', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //RSS Options - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_rss'), 
 			'advanced_wordpress_configuration_plugin_rss'
 		);
 
 
 		add_settings_section('advanced_wordpress_configuration_plugin_frontend_section', 
-			__('Frontend Options', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Frontend Options - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_frontend'), 
 			'advanced_wordpress_configuration_plugin_frontend'
 		);
 
 		add_settings_section('advanced_wordpress_configuration_plugin_frontend_section_cleanup', 
-			__('Clean-Up', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Clean-Up - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_frontend_cleanup'), 
 			'advanced_wordpress_configuration_plugin_frontend'
 		);
 
 
 		add_settings_section('advanced_wordpress_configuration_plugin_javascript_section', 
-			__('Javascript Options', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Javascript Options - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_javascript'), 
 			'advanced_wordpress_configuration_plugin_javascript'
 		);
 
 		add_settings_section('advanced_wordpress_configuration_plugin_adminbar_section', 
-			__('Adminbar Options', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Adminbar Options - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_adminbar'), 
 			'advanced_wordpress_configuration_plugin_adminbar'
 		);
 
 		add_settings_section('advanced_wordpress_configuration_plugin_comments_section', 
-			__('Comments Options', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Comments Options - Output is not good enough for styling
 			array($this, 'intro_advanced_wordpress_configuration_plugin_comments'), 
 			'advanced_wordpress_configuration_plugin_comments'
-		);		
+		);	
+
+		add_settings_section('advanced_wordpress_configuration_plugin_mobile_section', 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Mobile Options - Output is not good enough for styling
+			array($this, 'intro_advanced_wordpress_configuration_plugin_mobile'), 
+			'advanced_wordpress_configuration_plugin_mobile'
+		);	
 
 
 
@@ -201,6 +219,9 @@ class advancedwordpressconfigurationpluginBackendOptions {
 
 		//comments
 		$this->addSettingsComments();
+
+		//mobile
+		$this->addSettingsMobile();
 
 		
 		
@@ -236,7 +257,7 @@ class advancedwordpressconfigurationpluginBackendOptions {
 			array($this, 'renderOptions'), 
 			'advanced_wordpress_configuration_plugin_general', 
 			'advanced_wordpress_configuration_plugin_general_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customUploadMimes', 'type' => 'checkbox', 'label' => '* Options need to be set directly in plugin (sets eps, indt, ppt, svg and psd by default).' ) );
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customUploadMimes', 'type' => 'input', 'label' => 'Enter a comma separated list of file-extensions (e.g. "eps, indt, ppt, svg, psd"). Info: if the filetype is unknown it will be returned as "application/octet-stream" (which is good for most cases).' ) );
 
 		add_settings_field('advanced_wordpress_configuration_plugin_logoutToHomepage', 
 			__('Logout to homepage', 'advanced-wordpress-configuration-plugin-locale'), 
@@ -280,51 +301,42 @@ class advancedwordpressconfigurationpluginBackendOptions {
 			) 
 		);
 
-		add_settings_field('advanced_wordpress_configuration_plugin_customBackend', __('Customize backend', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 
-				'option_name' => 'advanced_wordpress_configuration_plugin_customBackend', 
-				'type' => 'input', 
-				'class' => 'regular-text',
-				'label' => 'Enter the path to the CSS file (wp-admin.css). Path is based on current theme (enter library/css/ for example). For example use "#header-logo" to set up a custom logo.' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_customLoginImage', __('Custom login image', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customLoginImage', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Enter the path to following images: bg_login.jpg, logo.png, button.jpg. Path is based on current theme (enter images/ for example or /lib/img/).' ));
-
-		add_settings_field('advanced_wordpress_configuration_plugin_customLoginCSS', __('Custom login CSS', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customLoginCSS', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Enter the path to the CSS file (wp-login.css). Path is based on current theme (enter library/css/ for example).' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_admin_color_scheme_picker', __('Removes color scheme picker', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_admin_color_scheme_picker', 'type' => 'checkbox', 'label' => 'Removes the color picker on user profil page.' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_addShortcodetoWidgets', __('Wiget shortcode support', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
+		add_settings_field('advanced_wordpress_configuration_plugin_addShortcodetoWidgets', 
+			__('Wiget shortcode support', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addShortcodetoWidgets', 'type' => 'checkbox', 'label' => 'Adds support for shortcodes in widgets.' ) );
 
-		add_settings_field('advanced_wordpress_configuration_plugin_customTinymce', __('Customize TinyMCE Editor', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customTinymce', 'type' => 'checkbox', 'label' => '* Options need to be set directly in plugin: Select buttons to hide/display.' ) );
+		add_settings_field('advanced_wordpress_configuration_plugin_addNewGravatar', 
+			__('Add a new gravatar', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addNewGravatar', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Path to "customavatar.png" based on template directory (e.g. images/ or lib/img/). Enter a "/" if the image resides directly in the theme folder.' ) );
 
-		add_settings_field('advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE', __('Add iFrame Support to TinyMCE', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE', 'type' => 'checkbox', 'label' => ' ' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_backendChangeFooter', __('Set footer text', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_backendChangeFooter', 'option_section' => 'advanced_wordpress_configuration_plugin_backend', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Leave empty for standard thank you text.' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_backendChangeFooterVersion', __('Change the Wordpress Version', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_backendChangeFooterVersion', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Changes the version info in bottom right footer.' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_addNewGravatar', __('Add a new gravatar', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addNewGravatar', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Path to "customavatar.png" based on template directory (e.g. images/ or lib/img/' ) );
-
-		add_settings_field('advanced_wordpress_configuration_plugin_hideUpdateNag', __('Hide Update Notification', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
+		add_settings_field('advanced_wordpress_configuration_plugin_hideUpdateNag', 
+			__('Hide Update Notification', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_hideUpdateNag', 'type' => 'checkbox', 'label' => 'For all users.' ) );
 
-		add_settings_field('advanced_wordpress_configuration_plugin_showAdminMessage', __('Show error message', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_showAdminMessage', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Show this message to backend users.' ) );
+		add_settings_field('advanced_wordpress_configuration_plugin_showAdminMessage', 
+			__('Show error message', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_showAdminMessage', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Show this message to backend users (be careful with that).' ) );
 
-		add_settings_field('advanced_wordpress_configuration_plugin_hideHelpTab', __('Hide ‘help’ Tab from admin panel', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
+		add_settings_field('advanced_wordpress_configuration_plugin_hideHelpTab', 
+			__('Hide ‘help’ Tab from admin panel', 
+				'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_hideHelpTab', 'type' => 'checkbox', 'label' => 'Removes the help tab (via CSS).' ) );
 
 		add_settings_field('advanced_wordpress_configuration_plugin_removeMetaBoxes', 
-			__('Remove metaboxes from Edit', 'advanced-wordpress-configuration-plugin-locale'), 
+			__('Remove metaboxes', 'advanced-wordpress-configuration-plugin-locale'), 
 			array($this, 'renderOptions'), 
 			'advanced_wordpress_configuration_plugin_backend', 
 			'advanced_wordpress_configuration_plugin_backend_section', 
@@ -344,9 +356,68 @@ class advancedwordpressconfigurationpluginBackendOptions {
 				'postimagediv' => 'Post image',
 				'pageparentdiv' => 'Page parent'),  'label' => 'Select metaboxes to remove from editing screen:' ) );
 
-		add_settings_field('advanced_wordpress_configuration_plugin_hidePostFormatUI', __('Hide post format UI for all users', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_hidePostFormatUI', 'type' => 'checkbox', 'label' => 'Hides the post format UI (new in WordPress 3.6.' ) );
+		add_settings_field('advanced_wordpress_configuration_plugin_hidePostFormatUI', __('Hide post format UI', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_backend', 'advanced_wordpress_configuration_plugin_backend_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_hidePostFormatUI', 'type' => 'checkbox', 'label' => 'Hides the post format UI for all users(new in WordPress 3.6).' ) );
 
+
+		/*
+		TinyMCE rich text editor
+		 */
+		add_settings_field('advanced_wordpress_configuration_plugin_customTinymce', 
+			__('Customize TinyMCE Editor', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_richtexteditor', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customTinymce', 'type' => 'checkbox', 'label' => '* Options need to be set directly in plugin: Select buttons to hide/display.' ) );
+
+		add_settings_field('advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE', 
+			__('Add iFrame support', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_richtexteditor', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addIframeSupportToTinyMCE', 'type' => 'checkbox', 'label' => 'Enables iFrame-support in TinyMCE (iframe-Tags will not get removed anymore).' ) );
+
+		/*
+		Customize
+		 */
+		add_settings_field('advanced_wordpress_configuration_plugin_customBackend', 
+			__('Customize backend', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_customize', 
+			array( 
+				'option_name' => 'advanced_wordpress_configuration_plugin_customBackend', 
+				'type' => 'input', 
+				'class' => 'regular-text',
+				'label' => 'Enter the path to the CSS file (wp-admin.css). Path is based on current theme (enter library/css/ for example). For example use "#header-logo" to set up a custom logo. If wp-admin.css resides directly in the theme folder enter a "/".' ) );
+
+		add_settings_field('advanced_wordpress_configuration_plugin_customLoginImage', 
+			__('Custom login image', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_customize', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customLoginImage', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Enter the path to following images: bg_login.jpg, logo.png, button.jpg. Path is based on current theme (enter images/ for example or /lib/img/).' ));
+
+		add_settings_field('advanced_wordpress_configuration_plugin_customLoginCSS', 
+			__('Custom login CSS', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_customize', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customLoginCSS', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Enter the path to the CSS file (wp-login.css). Path is based on current theme (enter library/css/ for example).' ) );
+
+		add_settings_field('advanced_wordpress_configuration_plugin_backendChangeFooter', 
+			__('Set footer text', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_customize', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_backendChangeFooter', 'option_section' => 'advanced_wordpress_configuration_plugin_backend', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Leave empty for standard thank you text.' ) );
+
+		add_settings_field('advanced_wordpress_configuration_plugin_backendChangeFooterVersion', 
+			__('Change the Wordpress Version', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_customize', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_backendChangeFooterVersion', 'type' => 'input', 'class' => 'regular-text', 'label' => 'Changes the version info in bottom right footer.' ) );
 
 		/*
 		Profile page
@@ -364,14 +435,23 @@ class advancedwordpressconfigurationpluginBackendOptions {
 				'url' => 'URL',
 				'googleplus' => 'Google+',
 				'twitter' => 'Twitter',
-				'facebook' => 'Facebook'), 'label' => 'Please choose which fields to remove:' ) );
+				'facebook' => 'Facebook'), 'label' => 'Please choose which fields to remove:' ) 
+			);
 		
 		add_settings_field('advanced_wordpress_configuration_plugin_addUserContactFields', 
 			__('Add user contact fields', 'advanced-wordpress-configuration-plugin-locale'), 
 			array($this, 'renderOptions'), 
 			'advanced_wordpress_configuration_plugin_backend', 
 			'advanced_wordpress_configuration_plugin_backend_section_profile', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addUserContactFields', 'type' => 'checkbox', 'label' => '* Options need to be set directly in plugin: Additional fields.' ) );
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addUserContactFields', 'type' => 'input', 'label' => 'Enter field names here (fields will be available as url-encoded and lowercased, e.g. "Telephone Number" will be available as "telephone+number" or "Öffentliches Profil" will be available as "%C3%96ffentliches+profil").' ) 
+			);
+
+		add_settings_field('advanced_wordpress_configuration_plugin_admin_color_scheme_picker', 
+			__('Removes color scheme picker', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_backend', 
+			'advanced_wordpress_configuration_plugin_backend_section_profile', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_admin_color_scheme_picker', 'type' => 'checkbox', 'label' => 'Removes the color picker on user profil page.' ) );
 
 
 		/*
@@ -451,8 +531,19 @@ class advancedwordpressconfigurationpluginBackendOptions {
 	 * Defines settings for frontend section
 	 */
 	function addSettingsFrontend() {
-		add_settings_field('advanced_wordpress_configuration_plugin_deregisterPluginStyles', __('De-registers plugin styles', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
-			array( 'option_name' => 'advanced_wordpress_configuration_plugin_deregisterPluginStyles', 'type' => 'checkbox', 'label' => '* Options need to be set directly in plugin: Plugin styles. Plugins like to add their own styles. To save on HTTP requests the styles shoud be copied to the template stylesheet. ' ) );
+		add_settings_field('advanced_wordpress_configuration_plugin_deregisterPluginStyles', 
+			__('De-registers plugin styles', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_frontend', 
+			'advanced_wordpress_configuration_plugin_frontend_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_deregisterPluginStyles', 'type' => 'input', 'label' => 'Plugins like to add their own styles. To save on HTTP requests the styles should be copied to the template stylesheet. To remove styles enqueed via wp_enqueue_style enter them here in a comma separated list.' ) );
+
+		add_settings_field('advanced_wordpress_configuration_plugin_deregisterPluginScripts', 
+			__('De-registers plugin scripts', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_frontend', 
+			'advanced_wordpress_configuration_plugin_frontend_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_deregisterPluginStyles', 'type' => 'input', 'label' => 'Plugins like to add their own scripts. To save on HTTP requests the scripts should be concatened and minified. If you serve an optimized version of your javascripts, remove the scripts added via wp_enqueue_script here. Enter a comma separated list. ' ) );
 
 		add_settings_field('advanced_wordpress_configuration_plugin_customExcerptLength', __('Sets a new excerpt length', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_customExcerptLength', 'type' => 'number', 'label' => 'Set new excerpt length (integer). Wordpress default: 55 words.' ) );
@@ -485,7 +576,11 @@ class advancedwordpressconfigurationpluginBackendOptions {
 		add_settings_field('advanced_wordpress_configuration_plugin_addBreadcrumbAction', __('Adds an advanced breadcrumb action', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_addBreadcrumbAction', 'type' => 'checkbox', 'label' => 'Adds an action for breadcrumbs. Needs to be called in theme by "do_action("the_breadcrumb")".' ) );
 
-		add_settings_field('advanced_wordpress_configuration_plugin_setSearchResultsPerPage', __('Search results per page', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_frontend', 'advanced_wordpress_configuration_plugin_frontend_section', 
+		add_settings_field('advanced_wordpress_configuration_plugin_setSearchResultsPerPage', 
+			__('Search results per page', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_frontend', 
+			'advanced_wordpress_configuration_plugin_frontend_section', 
 			array( 'option_name' => 'advanced_wordpress_configuration_plugin_setSearchResultsPerPage', 'type' => 'number', 'label' => 'Enter any number here. Wordpress default: 10' ) );
 
 		
@@ -600,8 +695,24 @@ class advancedwordpressconfigurationpluginBackendOptions {
 	 * Defines settings for comments section
 	 */
 	function addSettingsComments() {
-		add_settings_field('advanced_wordpress_configuration_plugin_correctCommentCount', __('Corrects the comment count', 'advanced-wordpress-configuration-plugin-locale'), array($this, 'renderOptions'), 'advanced_wordpress_configuration_plugin_comments', 'advanced_wordpress_configuration_plugin_comments_section', 
-		array( 'option_name' => 'advanced_wordpress_configuration_plugin_correctCommentCount', 'type' => 'checkbox' ) );
+		add_settings_field('advanced_wordpress_configuration_plugin_correctCommentCount', 
+			__('Corrects the comment count', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_comments', 
+			'advanced_wordpress_configuration_plugin_comments_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_correctCommentCount', 'type' => 'checkbox' ) );
+	}
+
+	/**
+	 * Defines settings for rss section
+	 */
+	function addSettingsMobile() {
+		add_settings_field('advanced_wordpress_configuration_plugin_mobilePostsPerPage', 
+			__('Posts per page', 'advanced-wordpress-configuration-plugin-locale'), 
+			array($this, 'renderOptions'), 
+			'advanced_wordpress_configuration_plugin_mobile', 
+			'advanced_wordpress_configuration_plugin_mobile_section', 
+			array( 'option_name' => 'advanced_wordpress_configuration_plugin_mobilePostsPerPage', 'type' => 'number', 'label' => 'Sets post per page for mobile devices (usually less posts than for desktops). Based on wp_is_mobile() which is true for mobile devices and tablets.' ) );
 	}
 
 	/**
@@ -735,47 +846,101 @@ class advancedwordpressconfigurationpluginBackendOptions {
 
 
 	function intro_advanced_wordpress_configuration_plugin_general() {
-		echo '<p class="note">' . __("Configure general settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>General</h3>
+				<p class="note">' . __("Configure general settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_backend() {
-		echo '<p class="note">' . __("Configure backend settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Backend</h3>
+				<p class="note">' . __("Configure backend settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
+	}
+
+	function intro_advanced_wordpress_configuration_plugin_backend_customize() {
+		echo '<section class="awcp_section">
+				<h3>Customize backend</h3>
+				<p class="note">' . __("Customize the backend (CSS and text changes).", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
+	}
+
+	function intro_advanced_wordpress_configuration_plugin_backend_richtexteditor() {
+		echo '<section class="awcp_section">
+				<h3>TinyMCE Rich Text Editor</h3>
+				<p class="note">' . __("Configure the TinyMCE rich text editor.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_backend_profile() {
-		echo '<p class="note">' . __("Configure profile page settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Profile page</h3>
+				<p class="note">' . __("Configure profile page settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_backend_columns() {
-		echo '<p class="note">' . __("Configure the backend columns.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Columns</h3>
+				<p class="note">' . __("Configure the backend columns.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_backend_dashboard() {
-		echo '<p class="note">' . __("Configure the dashboard.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Dashboard</h3>
+				<p class="note">' . __("Configure the dashboard.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_rss() {
-		echo '<p class="note">' . __("Configure RSS settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>RSS</h3>
+				<p class="note">' . __("Configure RSS settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_frontend() {
-		echo '<p class="note">' . __("Configure frontend settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Frontend</h3>
+				<p class="note">' . __("Configure frontend settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_frontend_cleanup() {
-		echo '<p class="note">' . __("Clean-up frontend output.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Clean-Up</h3>
+				<p class="note">' . __("Clean up frontend output.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_javascript() {
-		echo '<p class="note">' . __("Configure javascript settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Javascript</h3>
+				<p class="note">' . __("Configure the javascript settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_adminbar() {
-		echo '<p class="note">' . __("Configure admin bar settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Admin bar</h3>
+				<p class="note">' . __("Configure admin bar settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 	function intro_advanced_wordpress_configuration_plugin_comments() {
-		echo '<p class="note">' . __("Configure comment settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>';
+		echo '<section class="awcp_section">
+				<h3>Comments</h3>
+				<p class="note">' . __("Configure comment settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
+	}
+
+	function intro_advanced_wordpress_configuration_plugin_mobile() {
+		echo '<section class="awcp_section">
+				<h3>RSS</h3>
+				<p class="note">' . __("Configure RSS settings.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
 	}
 
 }
