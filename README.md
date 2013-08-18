@@ -1,19 +1,22 @@
-=== Advanced Wordpress Configuration Plugin ===
-Contributors: Tobias Boehning
-Tags: backend, frontend, admin bar, configuration
-Requires at least: 3.3.1
-Tested up to: 3.5.1
-Stable tag: 4.3
+Advanced Wordpress Configuration Plugin
+=======================================
+* Contributors: Tobias Boehning
+* Tags: backend, frontend, admin bar, configuration
+* Requires at least: 3.3.1
+* Tested up to: 3.5.2
+* Stable tag: 4.3
 
 
-== Description ==
+Description
+-----------
 
 This is a collection of useful settings (based on different websites) to quickly configure Wordpress without having to google advanced settings. The code was mostly copied from different sites and has accumulated over some time (I'm sorry I didn't note where I took it from...). Although this plugin is far from finished I use it on any of my various Wordpress websites.
 
 This plugin was vastly inspired by the Toolbox Plugin (http://playground.ebiene.de/toolbox-wordpress-plugin/).
 
 
-== Installation ==
+Installation
+------------
 
 
 1. Upload `advanced-wordpress-configuration-plugin` to the `/wp-content/plugins/` directory
@@ -21,22 +24,29 @@ This plugin was vastly inspired by the Toolbox Plugin (http://playground.ebiene.
 3. Set (some) options
 
 
-== Frequently Asked Questions ==
+Frequently Asked Questions
+--------------------------
 
-= Can I ask a question? =
-
+Can I ask a question?
 No.
 
-== Screenshots ==
+
+Screenshots
+-----------
 
 No screenshots available.
 
 
-== Changelog ==
+Changelog
+---------
 
-= 1.0 =
+1.0
 * Initial release.
 
+
+
+wp-config.php Tipps
+-------------------
 
 Also, check these tipps for wp-config.php (based on http://digwp.com/2009/06/wordpress-configuration-tricks/):
 

@@ -1,17 +1,15 @@
 <?php
 /*
-Plugin Name: Advanced Wordpress Configuration Plugin
-Plugin URI: https://github.com/rhyleh/Advanced-Wordpress-Configuration-Plugin
-Description: Enables advanced backend/frontend settings
-Version: 1.6
-Author: T. Böhning
-Author URI https://github.com/rhyleh/Advanced-Wordpress-Configuration-Plugin
-Author Email: boehning@gmail.com
-License: GPL
-
-Copyright 2013 T. Boehning and all the others I copied the code from...
-
+ * Plugin Name: Advanced Wordpress Configuration Plugin
+ * Plugin URI: https://github.com/rhyleh/Advanced-Wordpress-Configuration-Plugin
+ * Description: Enables advanced backend/frontend settings
+ * Version: 1.7
+ * Author: T. Böhning
+ * Author URI https://github.com/rhyleh/Advanced-Wordpress-Configuration-Plugin
+ * Author Email: boehning@gmail.com
+ * License: GPL2
 */
+define( 'AWCP_VERSION', '1.7' );
 
  if ( !defined('DB_NAME') ) {
 	header('HTTP/1.0 403 Forbidden');
@@ -32,30 +30,34 @@ if ( version_compare(PHP_VERSION, '5.2', '<') && version_compare( $wp_version, '
 } else {
 
 	if ( is_admin() ) {
-		register_activation_hook( __FILE__, 'advancedwordpressconfigurationpluginBaseActivate' );
-		register_deactivation_hook( __FILE__, 'advancedwordpressconfigurationpluginBaseDeactivate' );
+		//activation and deactivation
+		register_activation_hook( __FILE__, 'awcp_BaseActivate' );
+		register_deactivation_hook( __FILE__, 'awcp_BaseDeactivate' );
 
-		add_action('admin_init', 'advancedwordpressconfigurationpluginAdminInit');
-		add_action('admin_notices', 'advancedwordpressconfigurationpluginAdminNotices');
+		//admin notices
+		add_action('admin_init', 'awcp_AdminInit');
+		add_action('admin_notices', 'awcp_AdminNotices');
 
-		add_filter('plugin_action_links', 'advancedwordpressconfigurationpluginactionLinks', 10, 4 );
+		//link to settings
+		add_filter('plugin_action_links', 'awcp_actionLinks', 10, 4 );
 	} 
 
-	add_action( 'plugins_loaded', 'advancedwordpressconfigurationpluginBaseInit', 0 );
-}
-
-
-function advancedwordpressconfigurationpluginBaseInit() {
-	
-	include_once dirname( __FILE__ ).'/advancedwordpressconfigurationpluginBase.php';
-
+	//load base-file for backend and frontend
+	add_action( 'plugins_loaded', 'awcp_BaseInit', 0 );
 }
 
 /**
-* adds a link to settings page
-*
-*/
-function advancedwordpressconfigurationpluginactionLinks( $actions, $file, $data, $context ) {
+ * Includes the base-file
+ */
+function awcp_BaseInit() {
+	
+	include_once dirname( __FILE__ ).'/lib/advancedwordpressconfigurationpluginBase.php';
+}
+
+/**
+ * adds a link to settings page
+ */
+function awcp_actionLinks( $actions, $file, $data, $context ) {
 
  	if ( !current_user_can('manage_options') ) {
 		return $actions;
@@ -67,17 +69,20 @@ function advancedwordpressconfigurationpluginactionLinks( $actions, $file, $data
 	return $actions;
 }
 
-
-function advancedwordpressconfigurationpluginAdminInit() {
+/**
+ * show pending admin notices
+ */
+function awcp_AdminInit() {
  
     $notices= get_option('advanced-wordpress-configuration-pluginDeferredAdminNotices', array());
     
     update_option('advanced-wordpress-configuration-pluginDeferredAdminNotices', $notices);
-
 }
 
-
-function advancedwordpressconfigurationpluginAdminNotices() {
+/**
+ * Print admin notice
+ */
+function awcp_AdminNotices() {
 
   	if ($notices= get_option('advanced-wordpress-configuration-pluginDeferredAdminNotices')) {
     	foreach ($notices as $notice) {
@@ -88,9 +93,9 @@ function advancedwordpressconfigurationpluginAdminNotices() {
 }
 
 /**
- * Runs on activation of the plugin.
+ * runs on activation of the plugin.
  */
-function advancedwordpressconfigurationpluginBaseActivate() {
+function awcp_BaseActivate() {
 
 	$notices= get_option('advanced-wordpress-configuration-pluginDeferredAdminNotices', array());
   	$notices[]= 'Advanced Wordpress Configuration Plugin activated. Please check the <a href="' . esc_url( add_query_arg( array( 'page' => 'advanced-wordpress-configuration-plugin-options' ), admin_url( 'options-general.php' ) ) ) . '">' . __( 'Settings', 'advanced-wordpress-configuration-plugin-locale' ) . '</a>.';
@@ -104,7 +109,7 @@ function advancedwordpressconfigurationpluginBaseActivate() {
 /**
  * runs on deactivation of the plugin.
  */
-function advancedwordpressconfigurationpluginBaseDeactivate() {
+function awcp_BaseDeactivate() {
 	
   	delete_option('advanced-wordpress-configuration-pluginDeferredAdminNotices'); 
 
