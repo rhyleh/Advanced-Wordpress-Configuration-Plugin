@@ -206,6 +206,12 @@ class advancedwordpressconfigurationpluginOptions {
 			'advanced_wordpress_configuration_plugin_frontend'
 		);
 
+		add_settings_section('advanced_wordpress_configuration_plugin_frontend_section_users', 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //Users - Output is not good enough for styling
+			array($this, 'intro_advanced_wordpress_configuration_plugin_frontend_users'), 
+			'advanced_wordpress_configuration_plugin_frontend'
+		);
+
 
 		add_settings_section('advanced_wordpress_configuration_plugin_javascript_section', 
 			__('', 'advanced-wordpress-configuration-plugin-locale'), //Javascript Options - Output is not good enough for styling
@@ -310,6 +316,7 @@ class advancedwordpressconfigurationpluginOptions {
 		$this->loadModules('frontend');
 
 		$this->loadModules('frontend', 'cleanup');
+		$this->loadModules('frontend', 'users');
 	}
 
 	/**
@@ -371,8 +378,14 @@ class advancedwordpressconfigurationpluginOptions {
 		//loop through each file in the modules-directory
 		foreach (new DirectoryIterator($path) as $filename) {
 		    if($filename->isDot()) continue;
+
+			if($filename->isFile()) {
+				$file_extension = pathinfo($filename->getFilename(), PATHINFO_EXTENSION);
+			} else {
+				continue;
+			}
 		
-			if ( $filename->isReadable() && $filename->valid() && $filename->getExtension() === 'php') {
+			if ( $filename->isReadable() && $filename->valid() && $file_extension === 'php') {
 	
 				//set internal option name
 				$currentOption = 'options_'.$modulePath;
@@ -677,6 +690,13 @@ class advancedwordpressconfigurationpluginOptions {
 		echo '<section class="awcp_section">
 				<h3>'.__('Clean-Up', 'advanced-wordpress-configuration-plugin-locale').'</h3>
 				<p class="note">' . __("Clean up frontend output.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
+	}
+
+	function intro_advanced_wordpress_configuration_plugin_frontend_users() {
+		echo '<section class="awcp_section">
+				<h3>'.__('Users', 'advanced-wordpress-configuration-plugin-locale').'</h3>
+				<p class="note">' . __("Frontend users.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
 				</section>';
 	}
 
