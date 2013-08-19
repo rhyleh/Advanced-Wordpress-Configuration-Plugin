@@ -15,21 +15,27 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('manage_pages_columns', 'awcp_addPageThumbnailColumn', 5);
 add_action('manage_pages_custom_column', 'awcp_displayPageThumbnailColumn', 5, 2);
 
 
-// Add the column
+/**
+ * Add the column
+ * @param  [type] $cols [description]
+ * @return [type]       [description]
+ */
 function awcp_addPageThumbnailColumn($cols){
 	$cols['awcp_post_thumb'] = __('Thumbnail');
 	return $cols;
 }
 
-// Grab featured-thumbnail size post thumbnail and display it.
+
+/**
+ * Grab featured-thumbnail size post thumbnail and display it.
+ * @param  [type] $col [description]
+ * @param  [type] $id  [description]
+ * @return [type]      [description]
+ */
 function awcp_displayPageThumbnailColumn($col, $id){
   switch($col){
     case 'awcp_post_thumb':

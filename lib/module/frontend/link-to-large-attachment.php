@@ -15,10 +15,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('wp_get_attachment_link', 'awcp_getAttachmentLinkFilter', 10, 4);
 
 

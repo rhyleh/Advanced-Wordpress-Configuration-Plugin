@@ -14,10 +14,9 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 	die();
 }
 
-/**
- * register the filters - all set via options page
- */
+
 add_filter('the_content_more_link', 'wrapReadmore', 10, 1);
+
 
 /**
  * Wraps the more-link in a div instead of a paragraph

@@ -15,16 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'wp_before_admin_bar_render', 'awcp_openSiteLinkNewWindow' );
 
 
-/*
-* Make Visit Site links open in a new window: My Sites > Site Name > Visit Site
-*/
+/**
+ * Make Visit Site links open in a new window: My Sites > Site Name > Visit Site
+ * @return [type] [description]
+ */
 function awcp_openSiteLinkNewWindow() {
 	global $wp_admin_bar;
 	foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {

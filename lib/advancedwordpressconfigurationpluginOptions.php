@@ -61,15 +61,27 @@ class advancedwordpressconfigurationpluginOptions {
 	}
 
 	/**
-	 * Singlection construct to enable the modules to access the options
+	 * Singleton construct to enable the modules to access the options
 	 * @return [type] [description]
 	 */
 	public static function getInstance() {
-	    if (!self::$instance) {
-	        self::$instance = new self();
-	    }
+		if (!self::$instance) {
+			self::$instance = new self();
+		}
 
 	    return self::$instance;
+	}
+
+	/**
+	 * [getShortName description]
+	 * @param  [type] $file [description]
+	 * @return [type]       [description]
+	 */
+	public static function getShortName($file) {
+		$info =  get_file_data( $file , array('name' => 'Module Name'));
+		$shortName = sanitize_file_name($info['name']);
+
+		return $shortName;
 	}
 
 

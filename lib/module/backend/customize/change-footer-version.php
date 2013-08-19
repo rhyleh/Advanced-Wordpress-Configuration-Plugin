@@ -16,15 +16,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('update_footer', 'awcp_backendChangeFooterVersion', 9999 );
 
 
 /**
-	 * sets the footer information in backend
+ * sets the footer information in backend
+ * @param  [type] $text [description]
+ * @return [type]       [description]
  */
 function awcp_backendChangeFooterVersion($text) {
 
@@ -32,8 +30,7 @@ function awcp_backendChangeFooterVersion($text) {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	if(strlen($options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName]) > 0 ) {
 		return $options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName];

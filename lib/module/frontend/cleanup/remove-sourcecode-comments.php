@@ -15,26 +15,28 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('get_header', 'awcp_bufferStart');
 add_action('wp_footer', 'awcp_bufferEnd');
 
+
 /**
- *
+ * [awcp_callback description]
+ * @param  [type] $buffer [description]
+ * @return [type]         [description]
  */
 function awcp_callback($buffer) {
 	$buffer = preg_replace('/<!--(.|\s)*?-->/', '', $buffer);
 	return $buffer;
 }
+
+
 /**
  * [buffer_start description]
  */
 function awcp_bufferStart() {
 	ob_start("awcp_callback");
 }
+
 
 /**
  * [buffer_end description]

@@ -15,17 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('wp_head', 'awcp_metaImageThumb' );
-
 
 
 /**
  * Ausgabe der Artikelbilder als og:image Metatag
- * TODO: adjust default 
+ * @return [type] [description]
  */
 function awcp_metaImageThumb() {
 	/* Keine Feeds und X-Backs */

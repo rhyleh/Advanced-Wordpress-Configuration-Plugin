@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'widgets_init', 'awcp_removeRecentCommentsWidgetStyle' );
 
 
 /**
- * 
+ * [awcp_removeRecentCommentsWidgetStyle description]
+ * @return [type] [description]
  */
 function awcp_removeRecentCommentsWidgetStyle() {
 	global $wp_widget_factory;

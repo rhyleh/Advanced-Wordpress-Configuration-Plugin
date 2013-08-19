@@ -16,10 +16,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('wp_mail_from','awcp_emailAddress');
 
 
@@ -29,5 +25,16 @@ add_filter('wp_mail_from','awcp_emailAddress');
  * @return [type]               [description]
  */
 function awcp_emailAddress($emailaddress) {
-	return $emailaddress;
+
+	//get options
+	$options = advancedwordpressconfigurationpluginOptions::getInstance();
+
+	//get current option name
+	$shortName = $options->getShortName(__FILE__);
+
+	if(strlen($options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName]) > 0) {
+		return $options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName];
+	} else {
+		return $emailaddress;
+	}
 }

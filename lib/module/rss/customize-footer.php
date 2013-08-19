@@ -16,10 +16,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('the_excerpt_rss', 'awcp_customizeRSSFooter' );
 add_filter('the_content_feed', 'awcp_customizeRSSFooter' );
 
@@ -36,12 +32,9 @@ function awcp_customizeRSSFooter($content) {
 		$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 		//get current option name
-		$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-		$shortName = sanitize_file_name($info['name']);
+		$shortName = $options->getShortName(__FILE__);
 
 		if(strlen($options->options_rss['advanced_wordpress_configuration_plugin_'.$shortName]) > 0 ) $content .= $options->options_rss['advanced_wordpress_configuration_plugin_'.$shortName];
 	}
 	return $content;
 }
-
-?>

@@ -5,7 +5,7 @@ Description: Set new excerpt length (integer). Wordpress default: 55 words.
 Author: Tobias Böhning
 Author URI: http://boehning.net
 Scope: Frontend
-Type: number
+Type: Number
 */
 
 
@@ -15,15 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter( 'excerpt_length', 'awcp_customExcerptLength' );
 
 
 /**
  * sets the length of the excerpt (for get_the_excerpt)
+ * @param  [type] $length [description]
+ * @return [type]         [description]
  */
 function awcp_customExcerptLength( $length ) {
 	//the amount of words to return
@@ -32,8 +30,9 @@ function awcp_customExcerptLength( $length ) {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
-	if( intval($options->options_frontend["advanced_wordpress_configuration_plugin_".$shortName]) > 0 ) return intval($options->options_frontend["advanced_wordpress_configuration_plugin_".$shortName]);
+	if( intval($options->options_frontend["advanced_wordpress_configuration_plugin_".$shortName]) > 0 ) {
+		return intval($options->options_frontend["advanced_wordpress_configuration_plugin_".$shortName]);
+	}
 }

@@ -15,8 +15,4 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 remove_filter ('the_content',  'wpautop');

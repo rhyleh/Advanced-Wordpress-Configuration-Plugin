@@ -16,9 +16,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-/**
- * register the filters - all set via options page
- */
 add_action( 'admin_menu', 'awcp_removeBackendMenus' );
 
 
@@ -32,8 +29,7 @@ function awcp_removeBackendMenus() {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	$selectedOptions = explode( ',', $options->options_backend["advanced_wordpress_configuration_plugin_".$shortName] );
 

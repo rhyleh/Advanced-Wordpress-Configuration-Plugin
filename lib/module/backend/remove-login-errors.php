@@ -15,8 +15,4 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('login_errors', create_function('$a', "return null;"));

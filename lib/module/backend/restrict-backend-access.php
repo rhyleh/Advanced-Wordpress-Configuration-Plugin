@@ -15,10 +15,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('admin_init', 'awcp_restrictBackendAccess', 1);
 
 

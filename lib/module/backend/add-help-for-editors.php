@@ -15,17 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'load-post.php', 'awcp_addHelpForEditors' );
-
 
 
 /**
  * adds information to the help dropdown in the backend
  * see: http://www.paulund.co.uk/adding-a-help-tab-to-wordpress
+ * @return [type] [description]
  */
 function awcp_addHelpForEditors() {
 	$screen = get_current_screen();

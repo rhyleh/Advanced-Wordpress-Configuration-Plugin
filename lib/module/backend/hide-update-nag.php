@@ -15,16 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 remove_action( 'admin_menu', 'awcp_hideUpdateNag' );
 
 
-
 /**
- *
+ * [awcp_hideUpdateNag description]
+ * @return [type] [description]
  */
 function awcp_hideUpdateNag() {
 	remove_action( 'admin_notices', 'update_nag', 3 );

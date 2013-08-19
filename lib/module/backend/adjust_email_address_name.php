@@ -16,17 +16,24 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
-add_filter('wp_mail_from_name','mail_from_name');
+add_filter('wp_mail_from_name','awcp_mailFromName');
 
 
 /**
  * [mail_from_name description]
  * @return [type] [description]
  */
-function mail_from_name($sendername) {
-	return $sendername;
+function awcp_mailFromName($sendername) {
+
+	//get options
+	$options = advancedwordpressconfigurationpluginOptions::getInstance();
+
+	//get current option name
+	$shortName = $options->getShortName(__FILE__);
+
+	if(strlen($options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName]) > 0) {
+		return $options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName];
+	} else {
+		return $sendername;
+	}
 }

@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'admin_init', 'awcp_disableDragDashboardWidgets' );
 
 
 /**
- *
+ * [awcp_disableDragDashboardWidgets description]
+ * @return [type] [description]
  */
 function awcp_disableDragDashboardWidgets() {
 	wp_deregister_script('postbox');

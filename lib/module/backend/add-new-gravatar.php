@@ -16,17 +16,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('avatar_defaults', 'awcp_addNewGravatar' );
-
 
 
 /**
  * adds a new default gravatar
- * @TODO: change url and name of gravatar
+ * @param  [type] $avatar_defaults [description]
+ * @return [type]                  [description]
  */
 function awcp_addNewGravatar ($avatar_defaults) {
 
@@ -34,8 +30,7 @@ function awcp_addNewGravatar ($avatar_defaults) {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	if( strlen($options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName]) > 0 ) {
 

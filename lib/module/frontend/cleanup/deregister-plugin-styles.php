@@ -5,7 +5,7 @@ Description: Plugins like to add their own styles. To save on HTTP requests the 
 Author: Tobias Böhning
 Author URI: http://boehning.net
 Scope: Frontend
-Type: input
+Type: Input
 */
 
 
@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'wp_print_styles', 'awcp_deregisterPluginStyles', 100 );
 
 
 /**
  * copied from http://www.stephanmuller.nl/removing-wordpress-plugin-style-scripts-head/
+ * @return [type] [description]
  */
 function awcp_deregisterPluginStyles() {
 
@@ -31,8 +28,7 @@ function awcp_deregisterPluginStyles() {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	$handles = array_map('trim', explode(",", $options->options_frontend['advanced_wordpress_configuration_plugin_'.$shortName]));
 

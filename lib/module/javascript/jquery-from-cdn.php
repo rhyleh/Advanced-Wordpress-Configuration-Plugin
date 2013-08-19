@@ -1,7 +1,7 @@
 <?php
 /*
 Module Name: Load jQuery from CDN
-Description: Loads jQuery from Google CDN, version: 1.10.2
+Description: Loads jQuery from Google CDN (via https), version: 1.10.2
 Author: Tobias Böhning
 Author URI: http://boehning.net
 Scope: Frontend
@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'init', 'awcp_jqueryFromCdn' );
 
 
 /**
- *
+ * [awcp_jqueryFromCdn description]
+ * @return [type] [description]
  */
 function awcp_jqueryFromCdn() {
 

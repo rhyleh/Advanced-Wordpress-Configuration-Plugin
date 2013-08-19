@@ -16,10 +16,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('posts_where', 'awcp_delayPublishRSS' );
 
 
@@ -34,10 +30,9 @@ function awcp_delayPublishRSS($where) {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
-	if( $options->options_rss["advanced_wordpress_configuration_plugin_".$shortName] != 'false' ) {
+	if( $options->options_rss["advanced_wordpress_configuration_plugin_".$shortName] !== 'false' ) {
 
 		global $wpdb;
 
@@ -60,5 +55,3 @@ function awcp_delayPublishRSS($where) {
 
 	return $where;
 }
-
-?>

@@ -15,10 +15,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('do_feed', 'awcp_disableRSS', 1);
 add_action('do_feed_rdf', 'awcp_disableRSS', 1);
 add_action('do_feed_rss', 'awcp_disableRSS', 1);
@@ -28,10 +24,8 @@ add_action('do_feed_atom', 'awcp_disableRSS', 1);
 
 /**
  * disables the RSS feed
- *
+ * @return [type] [description]
  */
 function awcp_disableRSS() {	
 	wp_die( __('No feed available, please visit our <a href="'. get_bloginfo('url') .'">homepage</a>!') );
 }
-
-?>

@@ -15,30 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
-add_filter( 'mce_buttons_2', 'awcp_customTinymce' );
 add_filter( 'tiny_mce_before_init', 'awcp_customTinymceSettings' );
 
 
-
-/**
- * includes an additional stylesheet in backend
- * settings will be overwritten by TinyMceAdvanced plugin...
- */
-function awcp_customTinymce( $buttons ) {
-
-	// based on: http://alisothegeek.com/2011/05/tinymce-styles-dropdown-wordpress-visual-editor/
-
-	array_unshift( $buttons, 'formatselect' );
-	return $buttons;
-}
-
 /**
  * defines available styles
- * TODO: remove stuff from formats as well...
+ * @param  [type] $settings [description]
+ * @return [type]           [description]
  */
 function awcp_customTinymceSettings( $settings ) {
 

@@ -16,15 +16,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('manage_pages_columns', 'awcp_removePageColumns' );
 
 
 /**
  * removes backend columns from page view
+ * @param  [type] $defaults [description]
+ * @return [type]           [description]
  */
 function awcp_removePageColumns($defaults) {
 
@@ -32,13 +30,14 @@ function awcp_removePageColumns($defaults) {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	$selectedOptions = explode( ',', $options->options_backend["advanced_wordpress_configuration_plugin_".$shortName] );
 
-	foreach ($selectedOptions as $key => $value) {
-		unset($defaults[trim($value)]);
+	if( is_array($selectedOptions) ) {
+		foreach ($selectedOptions as $key => $value) {
+			unset($defaults[trim($value)]);
+		}
 	}
 
 	return $defaults;

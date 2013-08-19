@@ -15,8 +15,4 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter( 'enable_post_format_ui', '__return_false' );

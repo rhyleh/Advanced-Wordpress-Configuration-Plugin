@@ -15,16 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'wp_before_admin_bar_render', 'awcp_customizeAdminBar' );
 
 
-/*
-* Remove the WordPress Logo from the WordPress Admin Bar
-*/
+/**
+ * Remove the WordPress Logo from the WordPress Admin Bar
+ * @return [type] [description]
+ */
 function awcp_customizeAdminBar() {
 	global $wp_admin_bar;
 

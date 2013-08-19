@@ -16,24 +16,25 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('admin_footer_text', 'awcp_backendChangeFooter');
 
 
 /**
  * sets the footer information in backend
+ * @param  [type] $text [description]
+ * @return [type]       [description]
  */
-function awcp_backendChangeFooter () {
+function awcp_backendChangeFooter($text) {
 
 	//get options
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
-	echo $options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName];
+	if(strlen($options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName]) > 0 ) {
+		echo $options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName];
+	} else {
+		return $text;
+	}
 }

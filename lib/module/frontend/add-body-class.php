@@ -15,15 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('body_class', 'awcp_addBodyClass' );
 
 
 /**
- *
+ * [awcp_addBodyClass description]
+ * @param  [type] $classes [description]
+ * @return [type]          [description]
  */
 function awcp_addBodyClass($classes) {
 	global $wpdb, $post;

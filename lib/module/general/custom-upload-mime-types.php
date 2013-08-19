@@ -15,12 +15,7 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('upload_mimes', 'awcp_customUploadMimes' );
-
 
 
 /**
@@ -33,8 +28,7 @@ function awcp_customUploadMimes( $existing_mimes=array() ) {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	if( strlen($options->options_general['advanced_wordpress_configuration_plugin_'.$shortName]) > 0 ) {
 
@@ -53,6 +47,7 @@ function awcp_customUploadMimes( $existing_mimes=array() ) {
 
 	return $existing_mimes;
 }
+
 
 /**
  * Helper function for customUploadMimes

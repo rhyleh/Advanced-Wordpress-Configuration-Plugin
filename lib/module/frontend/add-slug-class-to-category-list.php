@@ -15,18 +15,14 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('wp_list_categories', 'awcp_addSlugClassToCategoryList' );
-
 
 
 /**
  * adds the category id to wp_list_categories
+ * @param  [type] $list [description]
+ * @return [type]       [description]
  */
-
 function awcp_addSlugClassToCategoryList($list) {
 
 	$cats = get_categories('hide_empty=0');
@@ -34,7 +30,6 @@ function awcp_addSlugClassToCategoryList($list) {
 			$find = 'cat-item-' . $cat->term_id . '"';
 			$replace = 'cat-item-' . $cat->slug . ' cat-item-' . $cat->term_id . '"';
 			$list = str_replace( $find, $replace, $list );
-
 		}
 
 	return $list;

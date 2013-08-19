@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'admin_head', 'awcp_hideHelpTab' );
 
 
 /**
  * just adds a style, could be added to admin stylesheet
+ * @return [type] [description]
  */
 function awcp_hideHelpTab() {
     echo '<style type="text/css">

@@ -15,32 +15,27 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('pre_get_posts', 'awcp_customPostsPerPage');
-
 
 
 /**
  * Custom posts per page for mobile devices
- *
+ * @param  [type] $query [description]
+ * @return [type]        [description]
  */
 function awcp_customPostsPerPage($query) {
 
-	//get options
-	$options = advancedwordpressconfigurationpluginOptions::getInstance();
+	if(wp_is_mobile()) {
 
-	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+		//get options
+		$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
-	$number = (int) $options->options_mobile["advanced_wordpress_configuration_plugin_".$shortName];
+		//get current option name
+		$shortName = $options->getShortName(__FILE__);
 
-	if(is_int($number)) {
+		$number = (int) $options->options_mobile["advanced_wordpress_configuration_plugin_".$shortName];
 
-		if(wp_is_mobile()) {
+		if(is_int($number)) {
 
 			if(is_home()){
 			    $query->set('posts_per_page', $number);
@@ -53,10 +48,6 @@ function awcp_customPostsPerPage($query) {
 			if(is_archive()){
 				$query->set('posts_per_page', $number);
 			}
-
 		}
-
 	}
 }
-
-?>

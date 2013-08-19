@@ -15,16 +15,14 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('pre_get_posts', 'awcp_removeCategoryFromFeed' );
 
 
-/*
-* custom feed query
-*/
+/**
+ * custom feed query
+ * @param  [type] $query [description]
+ * @return [type]        [description]
+ */
 function awcp_removeCategoryFromFeed($query) {
 	if(is_feed()) {
 
@@ -32,12 +30,9 @@ function awcp_removeCategoryFromFeed($query) {
 		$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 		//get current option name
-		$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-		$shortName = sanitize_file_name($info['name']);
+		$shortName = $options->getShortName(__FILE__);
 
 		$query->set('cat',$options->options_rss['advanced_wordpress_configuration_plugin_'.$shortName]);
 		return $query;
 	}
 }
-
-?>

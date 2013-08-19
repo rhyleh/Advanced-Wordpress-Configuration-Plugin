@@ -15,17 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('the_breadcrumb', 'awcp_addBreadcrumbAction' );
-
 
 
 /**
  * Aufruf und Ausgabe im Template via do_action('the_breadcrumb')
  * copied from Sergej Müller: https://gist.github.com/sergejmueller/4706816 
+ * @return [type] [description]
  */
 function awcp_addBreadcrumbAction() {
 	/* Aussteigen? */

@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('the_generator', 'awcp_removeWordpressVersion' );
 
 
 /**
- *
+ * [awcp_removeWordpressVersion description]
+ * @return [type] [description]
  */
 function awcp_removeWordpressVersion() {
 	return '';

@@ -15,15 +15,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter( 'clean_url', 'awcp_deferJavascript', 99, 1);
 
 
 /**
  * adds defer='defer' to javascript in header to defer loading
+ * @param  [type] $file [description]
+ * @return [type]       [description]
  */
 function awcp_deferJavascript($file) {
 	if ( strpos($file, '.js') !== false ) {

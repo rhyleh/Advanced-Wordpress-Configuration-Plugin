@@ -15,10 +15,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('get_comments_number', 'awcp_correctCommentCount', 0);
 
 

@@ -15,15 +15,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action('init', 'awcp_removeHeaderLinks' );
 
 
 /**
- *
+ * [awcp_removeHeaderLinks description]
+ * @return [type] [description]
  */
 function awcp_removeHeaderLinks() {
 	remove_action('wp_head', 'rsd_link');

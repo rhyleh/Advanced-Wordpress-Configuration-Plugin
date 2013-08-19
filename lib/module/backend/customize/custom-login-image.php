@@ -16,16 +16,12 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_action( 'login_enqueue_scripts', 'awcp_customLoginImage' );
 
 
 /**
  * includes an additional stylesheet on backend login page
- * @TODO: change image
+ * @return [type] [description]
  */
 function awcp_customLoginImage(){
 
@@ -33,8 +29,7 @@ function awcp_customLoginImage(){
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	if(strlen($options->options_backend['advanced_wordpress_configuration_plugin_'.$shortName]) > 0 ) {
 

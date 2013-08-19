@@ -15,11 +15,7 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
-add_action('get_header', 'enableThreadedComments');
+add_action('get_header', 'awcp_enableThreadedComments');
 
 
 /**
@@ -27,7 +23,7 @@ add_action('get_header', 'enableThreadedComments');
  * @param  [type] $count [description]
  * @return [type]        [description]
  */
-function enableThreadedComments(){
+function awcp_enableThreadedComments(){
 	if (!is_admin()) {
 		if (is_singular() AND comments_open() AND (get_option('thread_comments') == 1))
 			wp_enqueue_script('comment-reply');

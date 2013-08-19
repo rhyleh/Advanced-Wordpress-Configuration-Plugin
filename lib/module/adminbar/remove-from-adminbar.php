@@ -16,19 +16,13 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
-
 add_action( 'wp_before_admin_bar_render', 'awcp_removeFromAdminBar' );
 
 
-
-
-/*
-* Remove the WordPress Logo from the WordPress Admin Bar
-*/
+/**
+ * Remove the WordPress Logo from the WordPress Admin Bar
+ * @return [type] [description]
+ */
 function awcp_removeFromAdminBar() {
 	global $wp_admin_bar;
 
@@ -41,13 +35,13 @@ function awcp_removeFromAdminBar() {
 	$options = advancedwordpressconfigurationpluginOptions::getInstance();
 
 	//get current option name
-	$info =  get_file_data( __FILE__ , array('name' => 'Module Name'));
-	$shortName = sanitize_file_name($info['name']);
+	$shortName = $options->getShortName(__FILE__);
 
 	$selectedOptions = explode( ',', $options->options_adminbar["advanced_wordpress_configuration_plugin_".$shortName] );
 
-	foreach ($selectedOptions as $key => $value) {
-		$wp_admin_bar->remove_menu(trim($value));
+	if(is_array($selectedOptions)) {
+		foreach ($selectedOptions as $key => $value) {
+			$wp_admin_bar->remove_menu(trim($value));
+		}
 	}
-
 }

@@ -15,12 +15,7 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter('post_class', 'awcp_styleFirstPost' );
-
 
 
 /**

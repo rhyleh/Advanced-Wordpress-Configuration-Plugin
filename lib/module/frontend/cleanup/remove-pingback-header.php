@@ -15,8 +15,4 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 }
 
 
-
-/**
- * register the filters - all set via options page
- */
 add_filter(	'wp_headers', create_function(	'$h','unset($h["X-Pingback"]); return $h;'	));
