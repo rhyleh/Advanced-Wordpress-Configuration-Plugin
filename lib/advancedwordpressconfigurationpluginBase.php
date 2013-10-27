@@ -12,7 +12,6 @@
 
 class advancedwordpressconfigurationpluginBase {
 
-
 	/**
 	 * Initializes the plugin by setting localization, filters, and administration functions.
 	 */
@@ -24,8 +23,11 @@ class advancedwordpressconfigurationpluginBase {
 		//include the api (generic useful functions)
 		include 'advancedwordpressconfigurationpluginAPI.php';
 
+		include 'advancedwordpressconfigurationpluginOptions.php';
+		$pluginOptions = advancedwordpressconfigurationpluginOptions::getInstance();
+
 		//Load backend options and admin styles only in admin section
-		if( is_admin() ) {		
+		if( is_admin() ) {	
 			$this->register_admin_styles();
 			$this->register_admin_scripts();
 		} else {
@@ -33,15 +35,10 @@ class advancedwordpressconfigurationpluginBase {
 			$this->register_plugin_scripts();
 		}
 
-		include 'advancedwordpressconfigurationpluginOptions.php';
-		$pluginOptions = advancedwordpressconfigurationpluginOptions::getInstance();
-		
 		//set error handler
 		set_error_handler(array($this, "customError"), E_USER_WARNING);
 	}
 
-	
-	
 
 	/**
 	* Loads the plugin text domain for translation
@@ -50,8 +47,6 @@ class advancedwordpressconfigurationpluginBase {
 
 		load_plugin_textdomain( 'advanced-wordpress-configuration-plugin-locale', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 	}
-
-
 
 
 	/**

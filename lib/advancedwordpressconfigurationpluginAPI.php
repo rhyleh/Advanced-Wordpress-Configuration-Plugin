@@ -14,15 +14,6 @@ class advancedwordpressconfigurationpluginAPI {
 
 
 	/**
-	 * Helper method which toggles the value of a boolean variable.
-	 * @param bool $boolean
-	 */
-	protected function swapBoolean(&$boolean) {
-		$boolean = !$boolean;
-	}
-
-
-	/**
 	 * Helper method which prints the given data (text/array) in a nice way
 	 *
 	 * @param bool $content

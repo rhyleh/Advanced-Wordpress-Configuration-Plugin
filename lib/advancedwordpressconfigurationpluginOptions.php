@@ -38,8 +38,10 @@ class advancedwordpressconfigurationpluginOptions {
 		$this->options_mobile = get_option('advanced_wordpress_configuration_plugin_mobile');
 
 		//just load the necessary modules in the frontend
-		if( !is_admin()) {
+		if( !is_admin() && !$this->isLoginPage()) {
+			//daran liegt es:
 			self::addSettings();
+			//add_action( 'init', array(&$this, 'addSettings') );
 		} 
 		//setup options and load modules in backend
 		else {
@@ -52,13 +54,22 @@ class advancedwordpressconfigurationpluginOptions {
 				'advanced_wordpress_configuration_plugin_frontend' 	=>  __('Frontend', 'advanced-wordpress-configuration-plugin-locale'), 
 				'advanced_wordpress_configuration_plugin_rss' 		=>  __('RSS', 'advanced-wordpress-configuration-plugin-locale'), 
 				'advanced_wordpress_configuration_plugin_javascript' =>  __('Javascript', 'advanced-wordpress-configuration-plugin-locale'), 
-				'advanced_wordpress_configuration_plugin_adminbar' 	=>  __('Adminbar', 'advanced-wordpress-configuration-plugin-locale'), 
+				'advanced_wordpress_configuration_plugin_adminbar' 	=>  __('Admin Bar', 'advanced-wordpress-configuration-plugin-locale'), 
 				'advanced_wordpress_configuration_plugin_comments' 	=>  __('Comments', 'advanced-wordpress-configuration-plugin-locale'),
 				'advanced_wordpress_configuration_plugin_mobile' 	=>  __('Mobile', 'advanced-wordpress-configuration-plugin-locale') );
 
-			add_action('admin_menu', array(&$this, 'createOptionsPage'));
+			add_action('init', array(&$this, 'createOptionsPage'));
 		}
 	}
+
+	/**
+	 * [is_login_page description]
+	 * @return boolean [description]
+	 */
+	function isLoginPage() {
+		return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
+	}
+
 
 	/**
 	 * Singleton construct to enable the modules to access the options
@@ -97,7 +108,8 @@ class advancedwordpressconfigurationpluginOptions {
 							array($this, 'displaySettingsPage') //callback
 						);
 
-		add_action('admin_init', array($this, 'registerPluginSettings') );
+		//used _admin_menu for Options that need to be called by "admin_menu" - maybe change priority instead... (TODO)
+		add_action('_admin_menu', array($this, 'registerPluginSettings') );
 	}
 
 	/**
@@ -271,6 +283,7 @@ class advancedwordpressconfigurationpluginOptions {
 	 * Calls setting-functions to load modules for backend and frontend
 	 */
 	function addSettings() {
+
 		//general
 		$this->addSettingsGeneral();
 
@@ -389,7 +402,7 @@ class advancedwordpressconfigurationpluginOptions {
 
 		//loop through each file in the modules-directory
 		foreach (new DirectoryIterator($path) as $filename) {
-		    if($filename->isDot()) continue;
+			if($filename->isDot()) continue;
 
 			if($filename->isFile()) {
 				$file_extension = pathinfo($filename->getFilename(), PATHINFO_EXTENSION);
@@ -423,7 +436,7 @@ class advancedwordpressconfigurationpluginOptions {
 								
 								if( strtolower($meta['scope']) === 'backend' && is_admin() ) {
 									require_once($path.$filename->current());
-								} elseif ( strtolower($meta['scope']) === 'frontend' && !is_admin() ) {
+								} elseif ( strtolower($meta['scope']) === 'frontend' && !is_admin()) {
 									require_once($path.$filename->current());
 								} elseif ( strtolower($meta['scope']) === 'both' ) {
 									require_once($path.$filename->current());
