@@ -19,7 +19,7 @@ define( 'AWCP_VERSION', '1.7' );
 global $wp_version;
 
 // prevent parsing errors on PHP 4 or old WP installs
-if ( version_compare(PHP_VERSION, '5.2', '<') && version_compare( $wp_version, '3.2.999', '>' ) ) {
+if ( version_compare(PHP_VERSION, '5.2', '<') && version_compare( $wp_version, '3.3.999', '>' ) ) {
 	if ( is_admin() && (!defined('DOING_AJAX') || !DOING_AJAX) ) {
 		require_once ABSPATH.'/wp-admin/includes/plugin.php';
 		deactivate_plugins( __FILE__ );
@@ -50,7 +50,6 @@ if ( version_compare(PHP_VERSION, '5.2', '<') && version_compare( $wp_version, '
  * Includes the base-file
  */
 function awcp_BaseInit() {
-	
 	include_once dirname( __FILE__ ).'/lib/advancedwordpressconfigurationpluginBase.php';
 }
 

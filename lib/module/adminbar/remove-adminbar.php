@@ -7,7 +7,6 @@ Author URI: http://boehning.net
 Scope: Both
 Type: selectmultiple
 Options: all => Everyone, users => Users
-
 */
 
 

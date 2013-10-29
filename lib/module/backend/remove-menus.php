@@ -18,7 +18,6 @@ if ( !class_exists('advancedwordpressconfigurationpluginBase') ) {
 
 add_action( 'admin_menu', 'awcp_removeBackendMenus' );
 
-
 /**
  * removes backend menus
  * see: http://www.paulund.co.uk/add-menu-item-to-wordpress-admin

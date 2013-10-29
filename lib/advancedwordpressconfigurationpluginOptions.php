@@ -38,7 +38,7 @@ class advancedwordpressconfigurationpluginOptions {
 		$this->options_mobile = get_option('advanced_wordpress_configuration_plugin_mobile');
 
 		//just load the necessary modules in the frontend
-		if( !is_admin()) {
+		if( !is_admin() && !$this->isLoginPage()) {
 			self::addSettings();
 		} 
 		//setup options and load modules in backend
@@ -52,10 +52,16 @@ class advancedwordpressconfigurationpluginOptions {
 				'advanced_wordpress_configuration_plugin_frontend' 	=>  __('Frontend', 'advanced-wordpress-configuration-plugin-locale'), 
 				'advanced_wordpress_configuration_plugin_rss' 		=>  __('RSS', 'advanced-wordpress-configuration-plugin-locale'), 
 				'advanced_wordpress_configuration_plugin_javascript' =>  __('Javascript', 'advanced-wordpress-configuration-plugin-locale'), 
-				'advanced_wordpress_configuration_plugin_adminbar' 	=>  __('Adminbar', 'advanced-wordpress-configuration-plugin-locale'), 
+				'advanced_wordpress_configuration_plugin_adminbar' 	=>  __('Admin Bar', 'advanced-wordpress-configuration-plugin-locale'), 
 				'advanced_wordpress_configuration_plugin_comments' 	=>  __('Comments', 'advanced-wordpress-configuration-plugin-locale'),
 				'advanced_wordpress_configuration_plugin_mobile' 	=>  __('Mobile', 'advanced-wordpress-configuration-plugin-locale') );
 
+			//add_action('init', array(&$this, 'createOptionsPage'), 100);
+
+			//used _admin_menu for Options that need to be called by "admin_menu" - maybe change priority instead... (TODO)
+			add_action('_admin_menu', array(&$this, 'registerPluginSettings') );
+
+			//Options page
 			add_action('admin_menu', array(&$this, 'createOptionsPage'));
 		}
 	}
@@ -69,8 +75,18 @@ class advancedwordpressconfigurationpluginOptions {
 			self::$instance = new self();
 		}
 
-	    return self::$instance;
+		return self::$instance;
 	}
+
+
+	/**
+	 * [is_login_page description]
+	 * @return boolean [description]
+	 */
+	function isLoginPage() {
+		return in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-register.php' ) );
+	}
+
 
 	/**
 	 * [getShortName description]
@@ -97,7 +113,7 @@ class advancedwordpressconfigurationpluginOptions {
 							array($this, 'displaySettingsPage') //callback
 						);
 
-		add_action('admin_init', array($this, 'registerPluginSettings') );
+		
 	}
 
 	/**
@@ -166,6 +182,13 @@ class advancedwordpressconfigurationpluginOptions {
 			'advanced_wordpress_configuration_plugin_backend_section_customize', 
 			__('', 'advanced-wordpress-configuration-plugin-locale'), //ackend Options - Output is not good enough for styling	
 			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_customize'), 
+			'advanced_wordpress_configuration_plugin_backend'
+		);
+
+		add_settings_section(
+			'advanced_wordpress_configuration_plugin_backend_section_login', 
+			__('', 'advanced-wordpress-configuration-plugin-locale'), //ackend Options - Output is not good enough for styling	
+			array($this, 'intro_advanced_wordpress_configuration_plugin_backend_login'), 
 			'advanced_wordpress_configuration_plugin_backend'
 		);
 
@@ -271,6 +294,7 @@ class advancedwordpressconfigurationpluginOptions {
 	 * Calls setting-functions to load modules for backend and frontend
 	 */
 	function addSettings() {
+
 		//general
 		$this->addSettingsGeneral();
 
@@ -316,6 +340,7 @@ class advancedwordpressconfigurationpluginOptions {
 		$this->loadModules('backend', 'columns');
 		$this->loadModules('backend', 'customize');
 		$this->loadModules('backend', 'dashboard');
+		$this->loadModules('backend', 'login');
 		$this->loadModules('backend', 'profile');
 		$this->loadModules('backend', 'tinymce');
 	}
@@ -389,7 +414,7 @@ class advancedwordpressconfigurationpluginOptions {
 
 		//loop through each file in the modules-directory
 		foreach (new DirectoryIterator($path) as $filename) {
-		    if($filename->isDot()) continue;
+			if($filename->isDot()) continue;
 
 			if($filename->isFile()) {
 				$file_extension = pathinfo($filename->getFilename(), PATHINFO_EXTENSION);
@@ -423,7 +448,7 @@ class advancedwordpressconfigurationpluginOptions {
 								
 								if( strtolower($meta['scope']) === 'backend' && is_admin() ) {
 									require_once($path.$filename->current());
-								} elseif ( strtolower($meta['scope']) === 'frontend' && !is_admin() ) {
+								} elseif ( strtolower($meta['scope']) === 'frontend' && !is_admin()) {
 									require_once($path.$filename->current());
 								} elseif ( strtolower($meta['scope']) === 'both' ) {
 									require_once($path.$filename->current());
@@ -516,7 +541,7 @@ class advancedwordpressconfigurationpluginOptions {
 
 		$options = get_option( $this->activeTab );
 
-		if( $args['headline']) echo '<hr><h3>'.$args['headline'].'</h3>';
+		if( isset($args['headline']) ) echo '<hr><h3>'.$args['headline'].'</h3>';
 
 		$class = '';
 		if( $args['class']) $class = 'class="' . $args['class'] . ' "';
@@ -589,7 +614,7 @@ class advancedwordpressconfigurationpluginOptions {
 
 				echo '<select name="'.$this->activeTab.'['.$args['option_name'].'][]" id="'.$this->activeTab.'['.$args['option_name'].']" multiple="multiple" size="'.$size.'">';
 
-				$selectedOptions = explode(',', $options[$args['option_name']]);
+				$selectedOptions = (isset($options[$args['option_name']])) ? explode(',', $options[$args['option_name']]) : array();
 
 				foreach( $args['options'] as $option => $option_label) {
 					$selected = ( in_array($option, $selectedOptions) ) ? 'selected="selected"' : '';
@@ -655,6 +680,14 @@ class advancedwordpressconfigurationpluginOptions {
 				<p class="note">' . __("Customize the backend (CSS and text changes).", 'advanced-wordpress-configuration-plugin-locale') . '</p>
 				</section>';
 	}
+
+	function intro_advanced_wordpress_configuration_plugin_backend_login() {
+		echo '<section class="awcp_section">
+				<h3>'.__('Login screen', 'advanced-wordpress-configuration-plugin-locale').'</h3>
+				<p class="note">' . __("Customize the login page.", 'advanced-wordpress-configuration-plugin-locale') . '</p>
+				</section>';
+	}
+
 
 	function intro_advanced_wordpress_configuration_plugin_backend_tinymce() {
 		echo '<section class="awcp_section">

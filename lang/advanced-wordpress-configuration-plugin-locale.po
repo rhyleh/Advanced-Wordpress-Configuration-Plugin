@@ -48,7 +48,7 @@ msgstr "Javascript"
 
 #: ../kollerebbeBackendOptions.php:29
 msgid "Adminbar"
-msgstr "Adminbar"
+msgstr "Admin Bar"
 
 #: ../kollerebbeBackendOptions.php:30 ../kollerebbeWordpressSettings.php:639
 msgid "Comments"

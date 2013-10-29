@@ -12,7 +12,6 @@
 
 class advancedwordpressconfigurationpluginBase {
 
-
 	/**
 	 * Initializes the plugin by setting localization, filters, and administration functions.
 	 */
@@ -24,8 +23,12 @@ class advancedwordpressconfigurationpluginBase {
 		//include the api (generic useful functions)
 		include 'advancedwordpressconfigurationpluginAPI.php';
 
+		include 'advancedwordpressconfigurationpluginOptions.php';
+		$pluginOptions = advancedwordpressconfigurationpluginOptions::getInstance();
+
 		//Load backend options and admin styles only in admin section
-		if( is_admin() ) {		
+		if( is_admin() ) {
+			//add_action('admin_enqueue_scripts', array( $this, 'register_admin_styles') );
 			$this->register_admin_styles();
 			$this->register_admin_scripts();
 		} else {
@@ -33,15 +36,10 @@ class advancedwordpressconfigurationpluginBase {
 			$this->register_plugin_scripts();
 		}
 
-		include 'advancedwordpressconfigurationpluginOptions.php';
-		$pluginOptions = advancedwordpressconfigurationpluginOptions::getInstance();
-		
 		//set error handler
 		set_error_handler(array($this, "customError"), E_USER_WARNING);
 	}
 
-	
-	
 
 	/**
 	* Loads the plugin text domain for translation
@@ -50,8 +48,6 @@ class advancedwordpressconfigurationpluginBase {
 
 		load_plugin_textdomain( 'advanced-wordpress-configuration-plugin-locale', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 	}
-
-
 
 
 	/**
@@ -67,7 +63,7 @@ class advancedwordpressconfigurationpluginBase {
 	 */
 	public function register_admin_scripts() {
 
-		//wp_enqueue_script( 'advanced-wordpress-configuration-plugin-admin-script', plugins_url( '../js/admin.js', __FILE__ ) );
+		wp_enqueue_script( 'advanced-wordpress-configuration-plugin-admin-script', plugins_url( '../js/admin.js', __FILE__ ) );
 	}
 
 
@@ -95,8 +91,8 @@ class advancedwordpressconfigurationpluginBase {
 	 */
 	function customError($errno, $errstr) {
 
-		if ( ($number !== E_NOTICE) && ($number < 2048) ) {
-			die("There was an error. Please try again later.");
+		if ( ($errno !== E_NOTICE) && ($errno < 2048) ) {
+			die("There was an error. Please try again later. Error description: ".$errstr);
 		}
 
 		error_log("Error: [$errno] $errstr",1,"website@advanced-wordpress-configuration-plugin.com","From: website@advanced-wordpress-configuration-plugin.com");
